@@ -1,6 +1,12 @@
 package main.java.toguzKorgool;
 
+import javafx.application.Application;
+import javafx.embed.swing.JFXPanel;
+
+import java.io.IOException;
 import java.awt.*;
+import java.awt.event.*;
+import java.util.concurrent.CountDownLatch;
 import javax.swing.*;
 
 /**
@@ -13,15 +19,24 @@ public class MainWindow {
 
     private static JFrame frame;
 
-    public static void main(String[] args){
+    public static void main(String[] args)throws InterruptedException{
         MainWindow window = new MainWindow();
     }
 
     /**
      * Set up main window.
      */
-    public MainWindow()
+    public MainWindow() throws InterruptedException
     {
+        final CountDownLatch latch = new CountDownLatch(1);
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new JFXPanel();
+                latch.countDown();
+            }
+        });
+            latch.await();
+
         frame = new JFrame("Main Menu");
         setUpMainWindow();
         setUpMenu();
@@ -33,24 +48,47 @@ public class MainWindow {
     private static void setUpMainWindow()
     {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new GridLayout(2, 1));
+        //frame.setLayout(new GridLayout(4, 1));
 
-        setUpMenu();
 
         frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
-        frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        frame.setSize(1200, 1200);
     }
 
     private static void setUpMenu(){
         JButton singlePlayer = new JButton("Single Player");
-        //singlePlayer.setPreferredSize(new Dimension(200, 100));
-        JButton loadGame = new JButton ("Load Game");
-        //loadGame.setPreferredSize(new Dimension(200, 100));
+        singlePlayer.setPreferredSize(new Dimension(200, 100));
 
-        //Container pane = frame.getContentPane();
-        frame.add(singlePlayer);
-        frame.add(loadGame);
+        singlePlayer.addActionListener(new ActionListener() {
+
+                                           @Override
+                                           public void actionPerformed(ActionEvent e) {
+                                               try {
+                                                   Player_Board playerBoard = new Player_Board();
+                                                   playerBoard.launch();
+
+                                               } catch (IOException e1) {
+                                                   System.out.println("ERROR");
+                                               }
+                                           }
+                                       });
+
+        JButton loadGame = new JButton ("Load Game");
+        loadGame.setPreferredSize(new Dimension(1000, 800));
+
+        JButton instructions  = new JButton ("Intructions");
+
+        Container pane = frame.getContentPane();
+        pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+
+        loadGame.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pane.add(loadGame);
+        System.out.println("goallllllllll");
+        singlePlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pane.add(singlePlayer);
+        instructions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pane.add(instructions);
     }
 }

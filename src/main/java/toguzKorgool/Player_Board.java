@@ -25,7 +25,10 @@ public class Player_Board extends Application  {
 
     public Player_Board() throws IOException{
         initializeButtons();
+    }
 
+    public void launch(){
+        Application.launch();
     }
 
 
