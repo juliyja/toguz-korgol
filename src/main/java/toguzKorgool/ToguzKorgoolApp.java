@@ -1,4 +1,6 @@
 package toguzKorgool;
-public static void main(String[] args){
-	
+
+public class ToguzKorgoolApp {
+    public static void main(String[] args) {
+    }
 }
