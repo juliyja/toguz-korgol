@@ -1,4 +1,4 @@
-package main.java.toguzKorgool;
+package toguzKorgool;
 
 import javafx.application.Application;
 import javafx.embed.swing.JFXPanel;
@@ -85,7 +85,7 @@ public class MainWindow {
 
         loadGame.setAlignmentX(Component.CENTER_ALIGNMENT);
         pane.add(loadGame);
-        System.out.println("goallllllllll");
+        System.out.println("The Board was successfully built");
         singlePlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
         pane.add(singlePlayer);
         instructions.setAlignmentX(Component.CENTER_ALIGNMENT);
