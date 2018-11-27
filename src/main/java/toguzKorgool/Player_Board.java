@@ -1,4 +1,4 @@
-package main.java.toguzKorgool;
+package toguzKorgool;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -106,13 +106,17 @@ public class Player_Board extends Application  {
         File_editor.makeDataArray("default.txt");
         for(int i = 0; i < File_editor.getDataList().size(); i++){
             if(i < 10){
-                buttons.add(new Holes("player", File_editor.getDataList().get(i)));
+                buttons.add(new Holes(true, File_editor.getDataList().get(i)));
             }
-            else buttons.add(new Holes("PC", File_editor.getDataList().get(i)));
+            else buttons.add(new Holes(false, File_editor.getDataList().get(i)));
         }
     }
     public static void main(String[] args) throws IOException{
         Player_Board playerBoard = new Player_Board();
         Application.launch();
+    }
+
+    public static ArrayList getButtons() {
+        return buttons;
     }
 }

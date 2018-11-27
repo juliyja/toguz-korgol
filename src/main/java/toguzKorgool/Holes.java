@@ -1,19 +1,20 @@
-package main.java.toguzKorgool;
+package toguzKorgool;
 
 
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
+//one singular button (yes, HoleS)
 public class Holes extends Button {
 
 
     //private Player player;
-    private String player;
+    private boolean player;
     private int korgools;
     private boolean tuz = false;
 
 
-    public Holes(String player, int korgools){
+    public Holes(boolean player, int korgools){
         this.korgools = korgools;
         this.player = player;
         /*if(player.equals("player")){
@@ -44,5 +45,5 @@ public class Holes extends Button {
         return tuz;
     }
 
-    public String getPlayer(){ return player; }
+    public boolean getPlayer(){ return player; }
 }

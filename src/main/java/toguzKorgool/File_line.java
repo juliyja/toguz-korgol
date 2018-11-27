@@ -1,4 +1,4 @@
-package main.java.toguzKorgool;
+package toguzKorgool;
 
 /**
  * A class that is in charge of reading line by line from the text files loading the game. It looks at every line
