@@ -2,13 +2,13 @@ package toguzKorgool;
 
 
 import javafx.scene.control.Button;
+import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 
 //one singular button (yes, HoleS)
 public class Holes extends Button {
 
 
-    //private Player player;
     private boolean player;
     private int korgools;
     private boolean tuz = false;
@@ -17,12 +17,18 @@ public class Holes extends Button {
     public Holes(boolean player, int korgools){
         this.korgools = korgools;
         this.player = player;
-        /*if(player.equals("player")){
-            this.setBackground(Color.WHITE);
+        if(player){
+            if(tuz){
+                this.setStyle("-fx-background-color: White");
+            }
+            else this.setStyle("-fx-background-color: LightGray");
         }
         else{
-            this.setBackground(Color.GRAY);
-        }*/
+            if(tuz){
+                this.setStyle("-fx-background-color: LightGray");
+            }
+            else this.setStyle("-fx-background-color: White");
+        }
     }
 
     public int getKorgools(){
