@@ -12,8 +12,8 @@ import javax.swing.*;
 /**
  * The application's main window for the user.
  *
- * @Ido Ben-zvi
- * @15/11/2018
+ * @author Ido Ben-zvi
+ * @version 15/11/2018
  */
 public class MainWindow {
 

@@ -13,10 +13,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-
-//TODO: CLOSES WHEN PRESSING THE EXIT BUTTON OR IF WE HAVE TIME - ASKS IF YOU REALLY WANT TO EXIT OR IF YOU WANT TO SAVE
-// MIGHT SAVE WHEN PRESSING EXIT. NO IDEA YET
-
 public class Player_Board extends Application  {
 
 
@@ -51,11 +47,17 @@ public class Player_Board extends Application  {
 
         for(int r = 0; r < 5; r++){
             for(int c = 0; c < 9; c++){
-                if(r == 0 || r == 4){
-                        Label label = new Label(c+1 +"" );
+                if(r == 0){
+                        Label label = new Label(9-c +"" );
                         label.setPrefSize(board.getPrefWidth(), board.getPrefHeight());
                         label.setAlignment(Pos.CENTER);
                         board.add(label, c, r, 1, 1);
+                }
+                else if (r == 4) {
+                    Label label = new Label(c+1 + "");
+                    label.setPrefSize(board.getPrefWidth(), board.getPrefHeight());
+                    label.setAlignment(Pos.CENTER);
+                    board.add(label, c, r, 1, 1);
                 }
                 else if(r ==1) {
                     buttons.get(c + 1).setPrefSize(board.getPrefWidth(), board.getPrefHeight());
