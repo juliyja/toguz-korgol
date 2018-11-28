@@ -1,4 +1,4 @@
-package main.java.toguzKorgool;
+package toguzKorgool;
 
 import java.io.*;
 import java.net.URL;
