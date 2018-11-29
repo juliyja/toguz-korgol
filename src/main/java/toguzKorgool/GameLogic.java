@@ -13,7 +13,7 @@ import java.util.Random;
 public class GameLogic {
 
     private static GameLogic instance;
-    private ArrayList<Holes> holes = Player_Board.getButtons();
+    private ArrayList<Hole> holes = Player_Board.getButtons();
     private static Random randomIndex = new Random();
 
     private GameLogic() {
@@ -121,6 +121,8 @@ public class GameLogic {
                     throw new Exception("It's a draw");
                 }
         }
+
+        Player_Board.updateBoard();
     }
 
     // While putting korgools they are collected immediately to the appropriate Kazan if they land in any player's Tuz
