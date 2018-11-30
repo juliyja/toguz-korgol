@@ -15,9 +15,10 @@ public class GameLogic {
     private static GameLogic instance;
     private ArrayList<Hole> holes = Player_Board.getButtons();
     private static Random randomIndex = new Random();
+    private static GameState state;
 
     private GameLogic() {
-
+        state = GameState.RUNNING;
     }
 
     // Ensure use of only one game logic throughout the whole project
@@ -33,14 +34,14 @@ public class GameLogic {
     /* Moves korgools selected from a Hole @param: index,  in the
      * counterclockwise direction, following the stated rules of the game
      */
-    public void move(int index) throws Exception{
+    public void move(int index){
 
         boolean player1 = index < 10;
         int count = holes.get(index).getKorgools();
 
         // this is here to help display a correct message on the GUI if Hole is empty
         if (count == 0){
-            throw new Exception("This Hole is empty[fatal]");
+            state = GameState.EMPTYHOLE;
         }
 
         if (count > 0) {
@@ -112,13 +113,16 @@ public class GameLogic {
                 if (holes.get(10).getKorgools() >= 81 || holes.get(0).getKorgools() >= 81) {
 
                     if (holes.get(10).getKorgools() >= 82) {
-                        throw new Exception("Player1 won");
+                        state = GameState.P1WON;
+                        return;
 
                     } else if (holes.get(0).getKorgools() >= 82) {
-                        throw new Exception("Player2 won");
+                        state = GameState.P2WON;
+                        return;
                     }
 
-                    throw new Exception("It's a draw");
+                    state = GameState.DRAW;
+                    return;
                 }
         }
 
@@ -140,13 +144,19 @@ public class GameLogic {
 
     // makes a random move for player1 or player2 depending which player is a CP
     public void randomMove(boolean player1) throws Exception {
-        try {
+        if(state.getIfFatal()){
+            randomMove(player1);
+        } else {
             move(randomIndex.nextInt(9) + (player1? 1 : 11));
-        } catch (Exception e) {
-            if(e.getMessage().contains("[fatal]")){
-                randomMove(player1);
-            }
-            else throw e;
         }
     }
+
+    public GameState getState(){
+        return state;
+    }
+
+    public static void setStateToRunning(){
+        state = GameState.RUNNING;
+    }
+
 }

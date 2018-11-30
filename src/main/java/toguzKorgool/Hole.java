@@ -22,12 +22,17 @@ public class Hole extends Button {
             this.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    try {
-                        //TODO: FOR TESTING PURPOSES ONLY
-                        System.out.println("Pressed");
-                        GameLogic.getInstance().move(index);
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
+                    //TODO: FOR TESTING PURPOSES ONLY
+                    System.out.println("Pressed");
+                    GameLogic logic = GameLogic.getInstance();
+                    switch (logic.getState()){
+                        case RUNNING:
+                            logic.move(index);
+                        case EMPTYHOLE:
+                            System.out.println(logic.getState().getDescription());
+                            logic.setStateToRunning();
+                        default:
+                            System.out.println(GameLogic.getInstance().getState().getDescription());
                     }
                 }
             });
