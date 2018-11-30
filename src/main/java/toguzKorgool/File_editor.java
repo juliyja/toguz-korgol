@@ -48,7 +48,7 @@ public class File_editor{
         File file = new File(fileName);
         BufferedReader br;
         try {
-            br = new BufferedReader(new FileReader("./src/main/java/toguzKorgool/default.txt"));
+            br = new BufferedReader(new FileReader(fileName));
             }
             catch (FileNotFoundException e) {
             e.printStackTrace();
