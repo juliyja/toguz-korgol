@@ -23,7 +23,8 @@ public class File_editor{
     /**
      * An empty constructor.
      */
-    private File_editor(){}
+    public File_editor() throws IOException {
+    }
 
 
     /**
@@ -35,9 +36,6 @@ public class File_editor{
      * @throws IOException if the file cannot be opened or the data cannot be read for any reason.
      */
     public static void makeDataArray(String fileName) throws IOException {
-        if(instance == null){
-            instance = new File_editor();
-        }
         dataList = new ArrayList<>();
         File file = new File("./src/main/java/toguzKorgool/default.txt");
         BufferedReader br;
@@ -82,9 +80,17 @@ public class File_editor{
      *              IF AT ANY MOMENT ANYTHING GOES WRONG RETURN FALSE
      * @return true if the game has been properly saved and false otherwise.
      */
-    public static boolean saveGame(){
-        return false;
-    }
+        public static void saveGame() throws IOException {
+            FileWriter writeToFile = new FileWriter("./src/main/java/toguzKorgool/save.txt", false);
+            PrintWriter printLine = new PrintWriter(writeToFile);
+
+            ArrayList<Hole> toWrite = Player_Board.getButtons();
+
+            for(int i = 0; i < Player_Board.getButtons().size(); i++){
+                printLine.print(File_line.getLine(i, toWrite.get(i).getKorgools()));
+            }
+            printLine.close();
+        }
 
 
     /**

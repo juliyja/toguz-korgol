@@ -35,7 +35,7 @@ public class File_line {
         if(index > 19){
             return null;
         }
-        return index + "-" + value;
+        return index + "-" + value + "\n";
     }
     /**
      * A getter method to return the index of the hole (the first part of the line).

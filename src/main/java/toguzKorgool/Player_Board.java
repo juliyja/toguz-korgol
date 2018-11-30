@@ -27,6 +27,7 @@ public class Player_Board extends Application {
 
     public Player_Board() throws IOException {
         initializeButtons();
+        System.out.println(buttons.size() + "the size of the buttons array");
     }
 
     public void launch() {
@@ -105,7 +106,7 @@ public class Player_Board extends Application {
         }
     }
 
-    public static void updateBoard() {
+    public static void updateBoard() throws IOException {
         board.getChildren().clear();
         for (int i = 0; i < buttons.size(); i++) {
             buttons.get(i).paintButton();
@@ -137,10 +138,11 @@ public class Player_Board extends Application {
                 }
             }
         }
+        File_editor.saveGame();
     }
 
     public static void main(String[] args) throws IOException {
-        Player_Board playerBoard = new Player_Board();
+        //Player_Board playerBoard = new Player_Board();
         Application.launch();
     }
 
