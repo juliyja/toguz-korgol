@@ -4,6 +4,9 @@
 # Saved games
 save.txt
 
+# IntelliJ idea
+.idea
+
 ### macOS ###
 # General
 .DS_Store
