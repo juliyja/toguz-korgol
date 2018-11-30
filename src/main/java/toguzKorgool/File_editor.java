@@ -23,7 +23,15 @@ public class File_editor{
     /**
      * An empty constructor.
      */
-    public File_editor() throws IOException {
+    public File_editor(boolean newGame) throws IOException {
+        if(newGame){
+            makeDataArray("./src/main/java/toguzKorgool/default.txt");
+            instance = this;
+        }
+        else{
+            makeDataArray("./src/main/java/toguzKorgool/save.txt");
+            instance = this;
+        }
     }
 
 
@@ -35,17 +43,17 @@ public class File_editor{
      * @param fileName The name of the file we are reading from.
      * @throws IOException if the file cannot be opened or the data cannot be read for any reason.
      */
-    public static void makeDataArray(String fileName) throws IOException {
+    public static ArrayList<Integer> makeDataArray(String fileName) throws IOException {
         dataList = new ArrayList<>();
-        File file = new File("./src/main/java/toguzKorgool/default.txt");
+        File file = new File(fileName);
         BufferedReader br;
         try {
-            br = new BufferedReader(new FileReader(file));
+            br = new BufferedReader(new FileReader("./src/main/java/toguzKorgool/default.txt"));
             }
             catch (FileNotFoundException e) {
             e.printStackTrace();
             System.out.println("no file");
-            return;
+            return null;
         }
         String line;
         while ((line = br.readLine()) != null) {
@@ -54,9 +62,10 @@ public class File_editor{
         }
         if(dataList.size() != 20){
             System.out.println("File is corrupted");
-            return;
+            return null;
         }
         br.close();
+        return dataList;
     }
 
     public static ArrayList<Integer> getDataList(){
@@ -92,6 +101,9 @@ public class File_editor{
             printLine.close();
         }
 
+        public static File_editor getInstance(){
+            return instance;
+        }
 
     /**
       * TODO: JUST FOR TESTING SO REMOVE ASAP

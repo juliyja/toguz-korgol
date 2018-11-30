@@ -98,8 +98,7 @@ public class Player_Board extends Application {
 
 
     private static void initializeButtons() throws IOException {
-        File_editor.makeDataArray("default.txt");
-        for (int i = 0; i < File_editor.getDataList().size(); i++) {
+        for (int i = 0; i < File_editor.makeDataArray("").size(); i++) {
             if (i < 10) {
                 buttons.add(new Hole(true, File_editor.getDataList().get(i), i));
             } else buttons.add(new Hole(false, File_editor.getDataList().get(i), i));

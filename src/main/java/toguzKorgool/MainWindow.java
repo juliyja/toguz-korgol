@@ -6,6 +6,7 @@ import javafx.embed.swing.JFXPanel;
 import java.io.IOException;
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.reflect.Field;
 import java.util.concurrent.CountDownLatch;
 import javax.swing.*;
 
@@ -66,6 +67,7 @@ public class MainWindow {
                                            @Override
                                            public void actionPerformed(ActionEvent e) {
                                                try {
+                                                   File_editor editor = new File_editor(true);
                                                    Player_Board playerBoard = new Player_Board();
                                                    playerBoard.launch();
 
