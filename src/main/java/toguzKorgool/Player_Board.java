@@ -1,6 +1,7 @@
 package toguzKorgool;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -13,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ public class Player_Board extends Application {
         System.out.println(buttons.size() + "the size of the buttons array");
     }
 
-    public void launch() {
+    public static void launch() {
         Application.launch();
     }
 
@@ -80,6 +82,14 @@ public class Player_Board extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
 
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent t) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
+
     }
 
     private static void setColumnWidth() {
@@ -98,7 +108,7 @@ public class Player_Board extends Application {
 
 
     private static void initializeButtons() throws IOException {
-        for (int i = 0; i < File_editor.makeDataArray("").size(); i++) {
+        for (int i = 0; i < File_editor.getDataList().size(); i++) {
             if (i < 10) {
                 buttons.add(new Hole(true, File_editor.getDataList().get(i), i));
             } else buttons.add(new Hole(false, File_editor.getDataList().get(i), i));

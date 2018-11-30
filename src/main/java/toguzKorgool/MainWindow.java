@@ -68,8 +68,7 @@ public class MainWindow {
                                            public void actionPerformed(ActionEvent e) {
                                                try {
                                                    File_editor editor = new File_editor(true);
-                                                   Player_Board playerBoard = new Player_Board();
-                                                   playerBoard.launch();
+                                                   Player_Board.launch();
 
                                                } catch (IOException e1) {
                                                    System.out.println("ERROR");
@@ -80,7 +79,22 @@ public class MainWindow {
         JButton loadGame = new JButton ("Load Game");
         loadGame.setPreferredSize(new Dimension(300, 150));
 
+        loadGame.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    File_editor editor = new File_editor(false);
+                    Player_Board.launch();
+
+                } catch (IOException e1) {
+                    System.out.println("ERROR");
+                }
+            }
+        });
+
         JButton instructions  = new JButton ("Intructions");
+
         instructions.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -102,8 +116,9 @@ public class MainWindow {
     private static void setUpInstructions(){
         JOptionPane.showMessageDialog(frame,
                 "Move\n" +
-                "Players make moves by selecting one of the holes on their side of the game that contains korgools. A move consists of taking all the korgools from the selected hole and redistributing or seeding them to other holes in the anticlockwise direction.\n"
-                + "The first korgool is put in the hole the korgools were taken from. The next korgool goes in the adjacent hole to the right, and so on. Once the player has dropped a korgool in hole 9, the next korgool goes into hole 1 of the other player, and so on.\n\n"
+                "Players make moves by selecting one of the holes on their side of the game that contains korgools. A move consists of taking all the korgools from the selected hole\n"
+                + " and redistributing or seeding them to other holes in the anticlockwise direction. The first korgool is put in the hole the korgools were taken from. The next korgool\n"
+                + "goes in the adjacent hole to the right, and so on. Once the player has dropped a korgool in hole 9, the next korgool goes into hole 1 of the other player, and so on.\n\n"
 
                         +"Rules\n" +
                 "1. The player on the white/light side makes the first move. Players alternate between making moves.\n"
