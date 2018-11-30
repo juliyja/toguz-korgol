@@ -67,7 +67,7 @@ public class MainWindow {
                                            @Override
                                            public void actionPerformed(ActionEvent e) {
                                                try {
-                                                   File_editor editor = new File_editor(false);
+                                                   File_editor editor = new File_editor(true);
                                                    Player_Board.launch();
 
                                                } catch (IOException e1) {
@@ -79,7 +79,22 @@ public class MainWindow {
         JButton loadGame = new JButton ("Load Game");
         loadGame.setPreferredSize(new Dimension(300, 150));
 
+        loadGame.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    File_editor editor = new File_editor(false);
+                    Player_Board.launch();
+
+                } catch (IOException e1) {
+                    System.out.println("ERROR");
+                }
+            }
+        });
+
         JButton instructions  = new JButton ("Intructions");
+
         instructions.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
