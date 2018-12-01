@@ -67,7 +67,7 @@ public class MainWindow {
                                            @Override
                                            public void actionPerformed(ActionEvent e) {
                                                try {
-                                                   File_editor editor = new File_editor(true);
+                                                   new File_editor(true);
                                                    Player_Board.launch();
 
                                                } catch (IOException e1) {
