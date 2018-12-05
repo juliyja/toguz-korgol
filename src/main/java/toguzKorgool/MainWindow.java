@@ -1,12 +1,10 @@
 package toguzKorgool;
 
-import javafx.application.Application;
 import javafx.embed.swing.JFXPanel;
 
 import java.io.IOException;
 import java.awt.*;
 import java.awt.event.*;
-import java.lang.reflect.Field;
 import java.util.concurrent.CountDownLatch;
 import javax.swing.*;
 
@@ -67,7 +65,7 @@ public class MainWindow {
                                            @Override
                                            public void actionPerformed(ActionEvent e) {
                                                try {
-                                                   File_editor editor = new File_editor(true);
+                                                   FileEditor editor = new FileEditor(true);
                                                    Player_Board.launch();
 
                                                } catch (IOException e1) {
@@ -84,7 +82,7 @@ public class MainWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    File_editor editor = new File_editor(false);
+                    FileEditor editor = new FileEditor(false);
                     Player_Board.launch();
 
                 } catch (IOException e1) {

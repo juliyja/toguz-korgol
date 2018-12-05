@@ -12,7 +12,6 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -108,10 +107,10 @@ public class Player_Board extends Application {
 
 
     private static void initializeButtons() throws IOException {
-        for (int i = 0; i < File_editor.getDataList().size(); i++) {
+        for (int i = 0; i < FileEditor.getDataList().size(); i++) {
             if (i < 10) {
-                buttons.add(new Hole(true, File_editor.getDataList().get(i), i));
-            } else buttons.add(new Hole(false, File_editor.getDataList().get(i), i));
+                buttons.add(new Hole(true, FileEditor.getDataList().get(i), i));
+            } else buttons.add(new Hole(false, FileEditor.getDataList().get(i), i));
         }
     }
 
@@ -147,7 +146,7 @@ public class Player_Board extends Application {
                 }
             }
         }
-        File_editor.saveGame();
+        FileEditor.saveGame();
     }
 
     public static void main(String[] args) throws IOException {

@@ -6,7 +6,7 @@ package toguzKorgool;
  */
 
 
-public class File_line {
+public class FileLine {
     private int holeIndex;
     private int kargoosValue;
 
@@ -18,7 +18,7 @@ public class File_line {
      *             int-int
      */
 
-    public File_line(String line)
+    public FileLine(String line)
     {
         this.holeIndex =  Integer.parseInt(line.split("\\-")[0]);
         this.kargoosValue = Integer.parseInt(line.split("\\-")[1]);
@@ -32,36 +32,17 @@ public class File_line {
      * @return a well formatted String that follows the structure of the files.
      */
     public static String getLine(int index, int value){
-        if(index > 19){
+        if(index > 19 || index < 0 || value < 0 || value > 162){
             return null;
         }
-        return index + "-" + value + "\n";
+        return index + "-" + value;
     }
-    /**
-     * A getter method to return the index of the hole (the first part of the line).
-     *
-     * @return the index of the hole.
-     */
-    public int getHoleIndex(){ return holeIndex; }
-
-    /**
-     * A setter method to set the index of the hole.
-     *
-     * @param holeIndex the new index of the whole.
-     */
-    public void setHoleIndex(int holeIndex) {this.holeIndex = holeIndex; }
 
     /**
      * A getter method to return the number of kargools inside the hole (the second part of the line).
      *
      * @return the number of kargools in the hole.
      */
-    public int getKargoosValue(){ return kargoosValue; }
+    public int getKargoolsValue(){ return kargoosValue; }
 
-    /**
-     * A setter method to set the number of kargools in the whole.
-     *
-     * @param kargoosValue the new number of kargools in the whole.
-     */
-    public void setKargoosValue(int kargoosValue) { this.kargoosValue = kargoosValue; }
 }
