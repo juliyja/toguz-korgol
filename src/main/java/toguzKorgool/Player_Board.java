@@ -132,8 +132,8 @@ public class Player_Board extends Application {
                     label.setAlignment(Pos.CENTER);
                     board.add(label, c, r, 1, 1);
                 } else if (r == 1) {
-                    buttons.get(c + 1).setPrefSize(board.getPrefWidth(), board.getPrefHeight());
-                    board.add(buttons.get(c + 1), c, r, 1, 1);
+                    buttons.get(9-c).setPrefSize(board.getPrefWidth(), board.getPrefHeight());
+                    board.add(buttons.get(9-c), c, r, 1, 1);
                 } else if (r == 3) {
                     buttons.get(c + 11).setPrefSize(board.getPrefWidth(), board.getPrefHeight());
                     board.add(buttons.get(c + 11), c, r, 1, 1);
