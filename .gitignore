@@ -1,6 +1,12 @@
 # Created by https://www.gitignore.io/api/macos,windows
 # Edit at https://www.gitignore.io/?templates=macos,windows
 
+# Saved games
+save.txt
+
+# IntelliJ idea
+.idea
+
 ### macOS ###
 # General
 .DS_Store

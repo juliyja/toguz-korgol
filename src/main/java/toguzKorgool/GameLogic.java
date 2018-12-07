@@ -80,8 +80,8 @@ public class GameLogic {
             }
 
             // since indexes 0 and 10 are not part of any player's holes, they need to be omitted
-            if (index-- == 0) index = 19;
-            else if (index-- == 10) index = 9;
+            if (index == 1) index = 19;
+            else if (index == 11) index = 9;
             // while updates index beyond the last index, therefore -- corrects it
             else index--;
 
@@ -106,6 +106,7 @@ public class GameLogic {
                         }
                         if (onlyOneTuz) {
                             holes.get(index).makeTuz();
+                            collectFromTuz(index);
                         }
                     }
                 }
@@ -138,10 +139,10 @@ public class GameLogic {
     public void collectFromTuz(int index) {
         if (holes.get(index).isTuz()){
             if (index < 10){
-                holes.get(10).setKorgools(holes.get(index).getKorgools());
+                holes.get(10).setKorgools(holes.get(10).getKorgools() + holes.get(index).getKorgools());
             }
             else {
-                holes.get(0).setKorgools(holes.get(index).getKorgools());
+                holes.get(0).setKorgools(holes.get(0).getKorgools() + holes.get(index).getKorgools());
             }
             holes.get(index).clearKorgools();
         }
