@@ -1,7 +1,6 @@
 package toguzKorgool;
 
 import javafx.embed.swing.JFXPanel;
-
 import java.io.IOException;
 import java.awt.*;
 import java.awt.event.*;
@@ -9,7 +8,9 @@ import java.util.concurrent.CountDownLatch;
 import javax.swing.*;
 
 /**
- * The application's main window for the user.
+ * The application's main window for the user. Contains three main buttons: Single Player, Load Game
+ * and Instructions. Single Player starts a new game. Load Game resumes a previously saved game.
+ * Instructions displays a pop-up window with instructions for how to play the game.
  *
  * @author Ido Ben-zvi
  * @version 15/11/2018
@@ -17,6 +18,9 @@ import javax.swing.*;
 public class MainWindow {
 
     private static JFrame frame;
+    private static JButton singlePlayer;
+    private static JButton loadGame;
+    private static JButton instructions;
 
     public static void main(String[] args)throws InterruptedException{
         MainWindow window = new MainWindow();
@@ -39,6 +43,10 @@ public class MainWindow {
         frame = new JFrame("Main Menu");
         setUpMainWindow();
         setUpMenu();
+
+        singlePlayer.setName("singlePlayer");
+        loadGame.setName("loadGame");
+        instructions.setName("instructions");
     }
 
     /**
@@ -47,9 +55,6 @@ public class MainWindow {
     private static void setUpMainWindow()
     {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //frame.setLayout(new GridLayout(4, 1));
-
-
         frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
@@ -57,41 +62,36 @@ public class MainWindow {
     }
 
     private static void setUpMenu(){
-        JButton singlePlayer = new JButton("Single Player");
+        singlePlayer = new JButton("Single Player");
         singlePlayer.setPreferredSize(new Dimension(300, 150));
-
         singlePlayer.addActionListener(new ActionListener() {
-
-                                           @Override
-                                           public void actionPerformed(ActionEvent e) {
-                                               try {
-                                                   FileEditor editor = new FileEditor(true);
-                                                   Player_Board.launch();
-
-                                               } catch (IOException e1) {
-                                                   System.out.println("ERROR");
-                                               }
-                                           }
-                                       });
-
-        JButton loadGame = new JButton ("Load Game");
-        loadGame.setPreferredSize(new Dimension(300, 150));
-
-        loadGame.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    FileEditor editor = new FileEditor(false);
+                    FileEditor editor = new FileEditor(true);
                     Player_Board.launch();
-
                 } catch (IOException e1) {
                     System.out.println("ERROR");
                 }
             }
         });
 
-        JButton instructions  = new JButton ("Intructions");
+        loadGame = new JButton ("Load Game");
+        loadGame.setPreferredSize(new Dimension(300, 150));
+        loadGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    FileEditor editor = new FileEditor(false);
+                    Player_Board.launch();
+                } catch (IOException e1) {
+                    System.out.println("ERROR");
+                }
+            }
+        });
+
+        instructions  = new JButton ("Intructions");
+        instructions.setPreferredSize(new Dimension(300,150));
         instructions.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -101,7 +101,6 @@ public class MainWindow {
 
         Container pane = frame.getContentPane();
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-
         singlePlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
         pane.add(singlePlayer);
         loadGame.setAlignmentX(Component.CENTER_ALIGNMENT);
