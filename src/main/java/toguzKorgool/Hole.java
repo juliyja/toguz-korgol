@@ -18,7 +18,7 @@ public class Hole extends Button {
     public Hole(boolean player, int korgools, int index){
         this.korgools = korgools;
         this.player = player;
-        if(!(index == 0 || index == 10)) {
+        if(!(index == 0 || index == 10) && player) {
             this.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
@@ -43,15 +43,10 @@ public class Hole extends Button {
     public void paintButton(){
         this.setText("" + korgools);
         if(player){
-            if(tuz){
-                this.setStyle("-fx-background-color: White");
-            }
-            else this.setStyle("-fx-background-color: LightGray");
+            setStyle("-fx-background-color: LightGray");
         }
         else {
-            if (tuz) {
-                this.setStyle("-fx-background-color: LightGray");
-            } else this.setStyle("-fx-background-color: LightBlue");
+            setStyle("-fx-background-color: LightBlue");
         }
     }
 
@@ -69,6 +64,10 @@ public class Hole extends Button {
 
     public void makeTuz(){
         tuz = true;
+        if(player) {
+            player = false;
+        }
+        else player = true;
     }
 
     public boolean isTuz(){

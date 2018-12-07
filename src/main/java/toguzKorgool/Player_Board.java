@@ -2,8 +2,6 @@ package toguzKorgool;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -13,7 +11,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +24,7 @@ public class Player_Board extends Application {
     private static BorderPane pane = new BorderPane();
     private static GridPane board = new GridPane();
 
-    public Player_Board() throws IOException {
+    public Player_Board(){
         initializeButtons();
         System.out.println(buttons.size() + "the size of the buttons array");
     }
@@ -81,12 +79,9 @@ public class Player_Board extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
 
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent t) {
-                Platform.exit();
-                System.exit(0);
-            }
+        primaryStage.setOnCloseRequest(t -> {
+            Platform.exit();
+            System.exit(0);
         });
 
     }
@@ -106,11 +101,11 @@ public class Player_Board extends Application {
     }
 
 
-    private static void initializeButtons() throws IOException {
+    private static void initializeButtons(){
         for (int i = 0; i < FileEditor.getDataList().size(); i++) {
             if (i < 10) {
-                buttons.add(new Hole(true, FileEditor.getDataList().get(i), i));
-            } else buttons.add(new Hole(false, FileEditor.getDataList().get(i), i));
+                buttons.add(new Hole(FileEditor.getPlayer().get(i), FileEditor.getDataList().get(i), i));
+            } else buttons.add(new Hole(FileEditor.getPlayer().get(i), FileEditor.getDataList().get(i), i));
         }
     }
 
@@ -149,8 +144,7 @@ public class Player_Board extends Application {
         FileEditor.saveGame();
     }
 
-    public static void main(String[] args) throws IOException {
-        //Player_Board playerBoard = new Player_Board();
+    public static void main(String[] args){
         Application.launch();
     }
 
@@ -162,43 +156,18 @@ public class Player_Board extends Application {
         MenuBar topMenu = new MenuBar();
         Menu gameMenu = new Menu("Game");
         MenuItem save = new MenuItem("Save");
-        save.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                System.out.println("Save");
-            }
-        });
+        save.setOnAction(t -> System.out.println("Save"));
         MenuItem rules = new MenuItem("Rules");
-        rules.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                System.out.println("Rules");
-            }
-        });
+        rules.setOnAction(t -> System.out.println("Rules"));
         MenuItem exit = new MenuItem("Exit");
-        exit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                System.out.println("Exit");
-            }
-        });
+        exit.setOnAction(t -> System.out.println("Exit"));
         gameMenu.getItems().addAll(save, rules, exit);
 
         Menu aboutMenu = new Menu("About");
         MenuItem aboutGame = new MenuItem("The Game");
-        aboutGame.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                System.out.println("About the game");
-            }
-        });
+        aboutGame.setOnAction(t -> System.out.println("About the game"));
         MenuItem aboutAuthors = new MenuItem("Authors");
-        aboutAuthors.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                System.out.println("About the authors");
-            }
-        });
+        aboutAuthors.setOnAction(t -> System.out.println("About the authors"));
         aboutMenu.getItems().addAll(aboutGame, aboutAuthors);
 
         topMenu.getMenus().addAll(gameMenu, aboutMenu);

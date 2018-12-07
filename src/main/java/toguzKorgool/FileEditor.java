@@ -14,10 +14,9 @@ import java.util.ArrayList;
  */
 public class FileEditor {
 
-    //The instance of the FileEditor making it a singleton.
-    private static FileEditor instance;
     //Loaded information from either the default file or the saved game file
     private static ArrayList<Integer> dataList;
+    private static ArrayList<Boolean> player;
 
     /**
      * An empty constructor.
@@ -25,11 +24,9 @@ public class FileEditor {
     public FileEditor(boolean newGame) throws IOException {
         if(newGame){
             makeDataArray("default.txt");
-            instance = this;
         }
         else{
             makeDataArray("save.txt");
-            instance = this;
         }
     }
 
@@ -44,6 +41,7 @@ public class FileEditor {
      */
     private static ArrayList<Integer> makeDataArray(String fileName) {
         dataList = new ArrayList<>();
+        player = new ArrayList<>();
         BufferedReader br;
         try {
             br = new BufferedReader(new FileReader("./src/main/java/toguzKorgool/"+fileName));
@@ -56,6 +54,7 @@ public class FileEditor {
             while ((line = br.readLine()) != null) {
                 FileLine newLine = new FileLine(line);
                 dataList.add(newLine.getKargoolsValue());
+                player.add(newLine.getPlayer());
             }
             if (dataList.size() != 20) {
                 writeFile(fileName);
@@ -87,10 +86,18 @@ public class FileEditor {
         PrintWriter printLine = new PrintWriter(writeToFile);
 
         for(int i = 0; i < 20; i++){
-            if(i == 0 || i == 10){
-                printLine.print(FileLine.getLine(i, 0) + "\n");
+            if(i < 10){
+                if(i == 0){
+                    printLine.print(FileLine.getLine(i, false, 0) + "\n");
+                }
+                else printLine.print(FileLine.getLine(i, false, 0) + '\n');
             }
-            else printLine.print(FileLine.getLine(i, 9) + "\n");
+            else {
+                if(i == 10) {
+                    printLine.print(FileLine.getLine(i, true, 9) + "\n");
+                }
+                else printLine.print(FileLine.getLine(i, true, 9) + "\n");
+            }
         }
         printLine.close();
     }
@@ -112,13 +119,13 @@ public class FileEditor {
             ArrayList<Hole> toWrite = Player_Board.getButtons();
 
             for(int i = 0; i < Player_Board.getButtons().size(); i++){
-                printLine.print(FileLine.getLine(i, toWrite.get(i).getKorgools())+"/n");
+                printLine.print(FileLine.getLine(i, toWrite.get(i).getPlayer(), toWrite.get(i).getKorgools())+"\n");
             }
             printLine.close();
         }
 
-        public static FileEditor getInstance(){
-            return instance;
+        public static ArrayList<Boolean> getPlayer(){
+            return player;
         }
 
     /**
