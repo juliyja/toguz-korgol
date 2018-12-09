@@ -20,9 +20,16 @@ public class FileLine {
 
     public FileLine(String line)
     {
-        holeIndex =  Integer.parseInt(line.split("-")[0]);
-        player = Boolean.parseBoolean(line.split("-")[1]);
-        kargoosValue = Integer.parseInt(line.split("-")[2]);
+        if(line == null){
+            holeIndex = -1;
+            player = false;
+            kargoosValue = -1;
+        }
+        else {
+            holeIndex = Integer.parseInt(line.split("-")[0]);
+            player = Boolean.parseBoolean(line.split("-")[1]);
+            kargoosValue = Integer.parseInt(line.split("-")[2]);
+        }
     }
 
     /**
