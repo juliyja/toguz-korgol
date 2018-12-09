@@ -52,17 +52,17 @@ public class FileEditorTest {
         });
     }
 
-    private static ArrayList<Integer> expectedDataList;
-    private static ArrayList<Boolean> expectedPlayerList;
-    private static FileEditor fileEditor;
-    private static String fileName;
+    private ArrayList<Integer> expectedDataList;
+    private  ArrayList<Boolean> expectedPlayerList;
+    private  FileEditor fileEditor;
+    private  String fileName;
 
 
-    public FileEditorTest(Integer[] newExpectedDataList, Boolean[] newExpectedPlayerList, String filename){
-        expectedDataList = new ArrayList<>(Arrays.asList(newExpectedDataList));
-        expectedPlayerList = new ArrayList<>(Arrays.asList(newExpectedPlayerList));
-        fileEditor = new FileEditor(false, filename);
-        fileName = filename;
+    public FileEditorTest(Integer[] expectedDataList, Boolean[] expectedPlayerList, String fileName){
+        this.expectedDataList = new ArrayList<>(Arrays.asList(expectedDataList));
+        this.expectedPlayerList = new ArrayList<>(Arrays.asList(expectedPlayerList));
+        this.fileEditor = new FileEditor(false, fileName);
+        this.fileName = fileName;
     }
 
 

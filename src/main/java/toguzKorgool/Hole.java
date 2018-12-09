@@ -4,8 +4,6 @@ package toguzKorgool;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Background;
-import javafx.scene.paint.Color;
 
 public class Hole extends Button {
 
@@ -37,6 +35,7 @@ public class Hole extends Button {
                 }
             });
         }
+        paintButton();
     }
 
 
@@ -55,7 +54,10 @@ public class Hole extends Button {
     }
 
     public void setKorgools(int korgools){
-        this.korgools = korgools;
+
+        if(!(korgools < 0 || korgools > 162)){
+            this.korgools = korgools;
+        }
     }
 
     public void clearKorgools(){
@@ -63,11 +65,15 @@ public class Hole extends Button {
     }
 
     public void makeTuz(){
-        tuz = true;
-        if(player) {
-            player = false;
+        if(!tuz){
+            tuz = true;
+            switchPlayer();
+            paintButton();
         }
-        else player = true;
+    }
+
+    private void switchPlayer() {
+        player = !player;
     }
 
     public boolean isTuz(){
