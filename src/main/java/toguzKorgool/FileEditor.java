@@ -18,13 +18,30 @@ public class FileEditor {
     /**
      * An empty constructor.
      */
-    FileEditor(boolean newGame, String fileName){
-        if(newGame) makeDataArray("default.txt");
-        else{
-            makeDataArray(fileName + ".txt");
+    public FileEditor(boolean newGame, String fileName){
+        if(fileName == null) {
+            writeFile("default");
+            makeDataArray("./src/main/java/toguzKorgool/default.txt");
+        }
+        else if(newGame) {
+            makeDataArray("./src/main/java/toguzKorgool/default.txt");
+        }
+        else {
+            if (fileName.endsWith(".txt")) {
+                new FileEditor(fileName.split(".txt")[0]);
+            } else {
+                new FileEditor(fileName);
+            }
         }
     }
 
+
+    private FileEditor(String filename){
+        if(filename.contains("Test")){
+            makeDataArray("./src/main/test/java/toguzKorgool/" + filename + ".txt");
+        }
+        else makeDataArray("./src/main/java/toguzKorgool/" + filename + ".txt");
+    }
 
     /**
      * Create an array of integers based on the information in the text file.
@@ -37,7 +54,7 @@ public class FileEditor {
         player = new ArrayList<>();
         BufferedReader br;
         try {
-            br = new BufferedReader(new FileReader("./src/main/java/toguzKorgool/"+fileName));
+            br = new BufferedReader(new FileReader(fileName));
         } catch (IOException e) {
                 writeFile(fileName);
                 return makeDataArray(fileName);
@@ -46,6 +63,10 @@ public class FileEditor {
         try {
             while ((line = br.readLine()) != null) {
                 FileLine newLine = new FileLine(line);
+                if(newLine.getKargoolsValue() > 162 || newLine.getKargoolsValue() < 0){
+                    writeFile(fileName);
+                    return makeDataArray(fileName);
+                }
                 dataList.add(newLine.getKargoolsValue());
                 player.add(newLine.getPlayer());
             }
@@ -56,6 +77,10 @@ public class FileEditor {
             br.close();
         }
         catch (IOException e){
+            writeFile(fileName);
+            return makeDataArray(fileName);
+        }
+        if(dataList.stream().mapToInt(Integer::intValue).sum() > 162){
             writeFile(fileName);
             return makeDataArray(fileName);
         }
@@ -71,7 +96,7 @@ public class FileEditor {
     private static void writeFile(String fileName){
         FileWriter writeToFile = null;
         try {
-            writeToFile = new FileWriter("./src/main/java/toguzKorgool/"+fileName, false);
+            writeToFile = new FileWriter(fileName, false);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,16 +122,22 @@ public class FileEditor {
     /**
      *
      */
-        public static void saveGame() throws IOException {
-            FileWriter writeToFile = new FileWriter("./src/main/java/toguzKorgool/save.txt", false);
+        public static boolean saveGame() {
+            FileWriter writeToFile;
+            try {
+                writeToFile = new FileWriter("./src/main/java/toguzKorgool/save.txt", false);
+            } catch (IOException e) {
+                new File("./src/main/java/toguzKorgool/save.txt");
+                return saveGame();
+            }
             PrintWriter printLine = new PrintWriter(writeToFile);
-
             ArrayList<Hole> toWrite = Player_Board.getButtons();
 
             for(int i = 0; i < Player_Board.getButtons().size(); i++){
                 printLine.print(FileLine.getLine(i, toWrite.get(i).getPlayer(), toWrite.get(i).getKorgools())+"\n");
             }
             printLine.close();
+            return true;
         }
 
         public static ArrayList<Boolean> getPlayer(){
@@ -121,6 +152,7 @@ public class FileEditor {
     public static void main(String[] args){
         makeDataArray("default.txt");
         for(int i = 0; i < dataList.size(); i++){
+            System.out.println(player.get(i));
             System.out.println(dataList.get(i));
         }
     }

@@ -26,9 +26,9 @@ public class FileLine {
             kargoosValue = -1;
         }
         else {
-            holeIndex = Integer.parseInt(line.split("-")[0]);
-            player = Boolean.parseBoolean(line.split("-")[1]);
-            kargoosValue = Integer.parseInt(line.split("-")[2]);
+            holeIndex = Integer.parseInt(line.split("/")[0]);
+            player = Boolean.parseBoolean(line.split("/")[1]);
+            kargoosValue = Integer.parseInt(line.split("/")[2]);
         }
     }
 
@@ -43,7 +43,7 @@ public class FileLine {
         if(index > 19 || index < 0 || value < 0 || value > 162){
             return null;
         }
-        return index + "-" + player + "-" + value;
+        return index + "/" + player + "/" + value;
     }
 
     /**
