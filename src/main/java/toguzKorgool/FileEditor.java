@@ -8,9 +8,6 @@ import java.util.ArrayList;
  * or from a file containing information about the saved game.
  * It has the ability to save information in a new text file creating a save of the game that can be used by the user
  * when starting the application.
- * <p>
- * It is a Singleton class so that there are not two instances that can read and potentially edin the information at
- * the same time.
  */
 public class FileEditor {
 
@@ -21,23 +18,19 @@ public class FileEditor {
     /**
      * An empty constructor.
      */
-    public FileEditor(boolean newGame) throws IOException {
-        if(newGame){
-            makeDataArray("default.txt");
-        }
+    FileEditor(boolean newGame, String fileName){
+        if(newGame) makeDataArray("default.txt");
         else{
-            makeDataArray("save.txt");
+            makeDataArray(fileName + ".txt");
         }
     }
 
 
     /**
-     * TODO: HANDLE THE FILE NOT FOUND EXCEPTION BY JUST MAKING A DEFAULT ARRAY AND SAVING IT TO A TEXT FILE.
      * Create an array of integers based on the information in the text file.
      * If the final arrayList has different than 20 entries there is an error with the data in the file.
      *
      * @param fileName The name of the file we are reading from.
-     * @throws IOException if the file cannot be opened or the data cannot be read for any reason.
      */
     private static ArrayList<Integer> makeDataArray(String fileName) {
         dataList = new ArrayList<>();
@@ -73,8 +66,7 @@ public class FileEditor {
         return dataList;
     }
     /**
-     * TODO: USE THIS METHOD TO WRITE A NEW DEFAULT FILE IN CASE THE OLD ONE WAS CORRUPTED OR MISSING.
-     *              THE GAME NEEDS TO TURN ON EVEN IF THE FILE IS MESSED UP
+     *
      */
     private static void writeFile(String fileName){
         FileWriter writeToFile = null;
@@ -90,11 +82,11 @@ public class FileEditor {
                 if(i == 0){
                     printLine.print(FileLine.getLine(i, false, 0) + "\n");
                 }
-                else printLine.print(FileLine.getLine(i, false, 0) + '\n');
+                else printLine.print(FileLine.getLine(i, false, 9) + '\n');
             }
             else {
                 if(i == 10) {
-                    printLine.print(FileLine.getLine(i, true, 9) + "\n");
+                    printLine.print(FileLine.getLine(i, true, 0) + "\n");
                 }
                 else printLine.print(FileLine.getLine(i, true, 9) + "\n");
             }
@@ -103,14 +95,7 @@ public class FileEditor {
     }
 
     /**
-     * TODO: GET AN ARRAY OF ALL THAT IS STORED IN EACH BUTTON OF THE BOARD AND USE THAT TO WRITE A NEW FILE
-     *              CALL THE METHOD IN THE FILE_LINE CLASS TO RETURN A WELL FORMATTED LINE OF CODE
-     *              AND THEN JUST WRITE IT IN THE FILE
-     *              IF IT IS MISSING MAKE IT
-     *              IF IT EXISTS DELETE WHATEVER IS THERE
-     *              CHECK THAT EVERYTHING HAS BEEN PROPERLY SAVED IN THE FILE AND RETURN TRUE
-     *              IF AT ANY MOMENT ANYTHING GOES WRONG RETURN FALSE
-     * @return true if the game has been properly saved and false otherwise.
+     *
      */
         public static void saveGame() throws IOException {
             FileWriter writeToFile = new FileWriter("./src/main/java/toguzKorgool/save.txt", false);

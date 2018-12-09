@@ -38,8 +38,6 @@ public class Player_Board extends Application {
     public void start(Stage primaryStage) throws Exception {
         pane.setMaxSize(1400, 600);
         makeTopMenu();
-        makeBottomMenu();
-
 
         setColumnWidth();
 
@@ -154,30 +152,10 @@ public class Player_Board extends Application {
 
     private static void makeTopMenu() {
         MenuBar topMenu = new MenuBar();
-        Menu gameMenu = new Menu("Game");
-        MenuItem save = new MenuItem("Save");
-        save.setOnAction(t -> System.out.println("Save"));
-        MenuItem rules = new MenuItem("Rules");
-        rules.setOnAction(t -> System.out.println("Rules"));
-        MenuItem exit = new MenuItem("Exit");
-        exit.setOnAction(t -> System.out.println("Exit"));
-        gameMenu.getItems().addAll(save, rules, exit);
-
-        Menu aboutMenu = new Menu("About");
-        MenuItem aboutGame = new MenuItem("The Game");
-        aboutGame.setOnAction(t -> System.out.println("About the game"));
-        MenuItem aboutAuthors = new MenuItem("Authors");
-        aboutAuthors.setOnAction(t -> System.out.println("About the authors"));
-        aboutMenu.getItems().addAll(aboutGame, aboutAuthors);
-
-        topMenu.getMenus().addAll(gameMenu, aboutMenu);
+        Menu gameMenu = new Menu("Rules");
+        gameMenu.setOnAction(t -> System.out.println("Rules"));
+        topMenu.getMenus().addAll(gameMenu);
         pane.setTop(topMenu);
     }
 
-
-    private static void makeBottomMenu() {
-        MenuBar bottomMenu = new MenuBar();
-
-        pane.setBottom(bottomMenu);
-    }
 }
