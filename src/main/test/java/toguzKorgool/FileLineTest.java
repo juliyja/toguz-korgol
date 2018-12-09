@@ -19,10 +19,10 @@ import static org.junit.Assert.assertFalse;
         @Parameters
         public static Collection<Object[]> data() {
             return Arrays.asList(new Object[][] {
-                    {1, "true", 9, "1-true-9"}, {0, "false", 10, "0-false-10"},
+                    {1, "true", 9, "1/true/9"}, {0, "false", 10, "0/false/10"},
                     {20, "false", 0, null}, {-1, "false", 0, null},
                     {1, "false", -1, null}, {1, "false", 163, null},
-                    {1, "yes", 1, "1-false-1"}, {10, "none", 10, "10-false-10"}
+                    {1, "yes", 1, "1/false/1"}, {10, "none", 10, "10/false/10"}
             });
         }
 
