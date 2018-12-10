@@ -8,45 +8,53 @@ import java.util.ArrayList;
  * or from a file containing information about the saved game.
  * It has the ability to save information in a new text file creating a save of the game that can be used by the user
  * when starting the application.
- * <p>
- * It is a Singleton class so that there are not two instances that can read and potentially edin the information at
- * the same time.
  */
 public class FileEditor {
 
-    //The instance of the FileEditor making it a singleton.
-    private static FileEditor instance;
     //Loaded information from either the default file or the saved game file
     private static ArrayList<Integer> dataList;
+    private static ArrayList<Boolean> player;
 
     /**
      * An empty constructor.
      */
-    public FileEditor(boolean newGame) throws IOException {
-        if(newGame){
-            makeDataArray("default.txt");
-            instance = this;
+    public FileEditor(boolean newGame, String fileName){
+        if(fileName == null) {
+            writeFile("default");
+            makeDataArray("./src/main/java/toguzKorgool/default.txt");
         }
-        else{
-            makeDataArray("save.txt");
-            instance = this;
+        else if(newGame) {
+            makeDataArray("./src/main/java/toguzKorgool/default.txt");
+        }
+        else {
+            if (fileName.endsWith(".txt")) {
+                new FileEditor(fileName.split(".txt")[0]);
+            } else {
+                new FileEditor(fileName);
+            }
         }
     }
 
 
+    private FileEditor(String filename){
+        if(filename.contains("Test")){
+            makeDataArray("./src/main/test/java/toguzKorgool/" + filename + ".txt");
+        }
+        else makeDataArray("./src/main/java/toguzKorgool/" + filename + ".txt");
+    }
+
     /**
-     * TODO: HANDLE THE FILE NOT FOUND EXCEPTION BY JUST MAKING A DEFAULT ARRAY AND SAVING IT TO A TEXT FILE.
      * Create an array of integers based on the information in the text file.
      * If the final arrayList has different than 20 entries there is an error with the data in the file.
      *
      * @param fileName The name of the file we are reading from.
-     * @throws IOException if the file cannot be opened or the data cannot be read for any reason.
      */
     private static ArrayList<Integer> makeDataArray(String fileName) {
         dataList = new ArrayList<>();
+        player = new ArrayList<>();
         BufferedReader br;
         try {
-            br = new BufferedReader(new FileReader("./src/main/java/toguzKorgool/"+fileName));
+            br = new BufferedReader(new FileReader(fileName));
         } catch (IOException e) {
                 writeFile(fileName);
                 return makeDataArray(fileName);
@@ -55,7 +63,12 @@ public class FileEditor {
         try {
             while ((line = br.readLine()) != null) {
                 FileLine newLine = new FileLine(line);
+                if(newLine.getKargoolsValue() > 162 || newLine.getKargoolsValue() < 0){
+                    writeFile(fileName);
+                    return makeDataArray(fileName);
+                }
                 dataList.add(newLine.getKargoolsValue());
+                player.add(newLine.getPlayer());
             }
             if (dataList.size() != 20) {
                 writeFile(fileName);
@@ -67,6 +80,10 @@ public class FileEditor {
             writeFile(fileName);
             return makeDataArray(fileName);
         }
+        if(dataList.stream().mapToInt(Integer::intValue).sum() > 162){
+            writeFile(fileName);
+            return makeDataArray(fileName);
+        }
         return dataList;
     }
 
@@ -74,51 +91,57 @@ public class FileEditor {
         return dataList;
     }
     /**
-     * TODO: USE THIS METHOD TO WRITE A NEW DEFAULT FILE IN CASE THE OLD ONE WAS CORRUPTED OR MISSING.
-     *              THE GAME NEEDS TO TURN ON EVEN IF THE FILE IS MESSED UP
+     *
      */
     private static void writeFile(String fileName){
         FileWriter writeToFile = null;
         try {
-            writeToFile = new FileWriter("./src/main/java/toguzKorgool/"+fileName, false);
+            writeToFile = new FileWriter(fileName, false);
         } catch (IOException e) {
             e.printStackTrace();
         }
         PrintWriter printLine = new PrintWriter(writeToFile);
 
         for(int i = 0; i < 20; i++){
-            if(i == 0 || i == 10){
-                printLine.print(FileLine.getLine(i, 0) + "\n");
+            if(i < 10){
+                if(i == 0){
+                    printLine.print(FileLine.getLine(i, false, 0) + "\n");
+                }
+                else printLine.print(FileLine.getLine(i, false, 9) + '\n');
             }
-            else printLine.print(FileLine.getLine(i, 9) + "\n");
+            else {
+                if(i == 10) {
+                    printLine.print(FileLine.getLine(i, true, 0) + "\n");
+                }
+                else printLine.print(FileLine.getLine(i, true, 9) + "\n");
+            }
         }
         printLine.close();
     }
 
     /**
-     * TODO: GET AN ARRAY OF ALL THAT IS STORED IN EACH BUTTON OF THE BOARD AND USE THAT TO WRITE A NEW FILE
-     *              CALL THE METHOD IN THE FILE_LINE CLASS TO RETURN A WELL FORMATTED LINE OF CODE
-     *              AND THEN JUST WRITE IT IN THE FILE
-     *              IF IT IS MISSING MAKE IT
-     *              IF IT EXISTS DELETE WHATEVER IS THERE
-     *              CHECK THAT EVERYTHING HAS BEEN PROPERLY SAVED IN THE FILE AND RETURN TRUE
-     *              IF AT ANY MOMENT ANYTHING GOES WRONG RETURN FALSE
-     * @return true if the game has been properly saved and false otherwise.
+     *
      */
-        public static void saveGame() throws IOException {
-            FileWriter writeToFile = new FileWriter("./src/main/java/toguzKorgool/save.txt", false);
+        public static boolean saveGame() {
+            FileWriter writeToFile;
+            try {
+                writeToFile = new FileWriter("./src/main/java/toguzKorgool/save.txt", false);
+            } catch (IOException e) {
+                new File("./src/main/java/toguzKorgool/save.txt");
+                return saveGame();
+            }
             PrintWriter printLine = new PrintWriter(writeToFile);
-
             ArrayList<Hole> toWrite = Player_Board.getButtons();
 
             for(int i = 0; i < Player_Board.getButtons().size(); i++){
-                printLine.print(FileLine.getLine(i, toWrite.get(i).getKorgools())+"/n");
+                printLine.print(FileLine.getLine(i, toWrite.get(i).getPlayer(), toWrite.get(i).getKorgools())+"\n");
             }
             printLine.close();
+            return true;
         }
 
-        public static FileEditor getInstance(){
-            return instance;
+        public static ArrayList<Boolean> getPlayer(){
+            return player;
         }
 
     /**
@@ -129,6 +152,7 @@ public class FileEditor {
     public static void main(String[] args){
         makeDataArray("default.txt");
         for(int i = 0; i < dataList.size(); i++){
+            System.out.println(player.get(i));
             System.out.println(dataList.get(i));
         }
     }
