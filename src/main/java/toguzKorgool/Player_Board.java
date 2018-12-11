@@ -21,7 +21,6 @@ public class Player_Board extends Application {
 
     public Player_Board(){
         initializeButtons();
-        System.out.println(buttons.size() + "the size of the buttons array");
     }
 
     public static void launch() {

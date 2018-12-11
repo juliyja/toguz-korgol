@@ -1,9 +1,10 @@
 package toguzKorgool;
 
 import javafx.embed.swing.JFXPanel;
+
+import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.CountDownLatch;
-import javax.swing.*;
 
 /**
  * The application's main window for the user. This window contains four functionalities: Single Player, Load
@@ -59,19 +60,19 @@ public class MainWindow {
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
         JButton singlePlayer = createButton("Single Player", "singlePlayer", pane);
-        singlePlayer.addActionListener(e -> launchGame(true, ""));
+        singlePlayer.addActionListener(e -> launchGame("default"));
 
         JButton loadGame = createButton("Load Game", "loadGame", pane);
-        loadGame.addActionListener(e -> launchGame(false, "save"));
+        loadGame.addActionListener(e -> launchGame("save"));
 
         JButton easyGame = createButton("Easy Game", "easyGame", pane);
-        easyGame.addActionListener(e -> launchGame(false, "easy"));
+        easyGame.addActionListener(e -> launchGame("easy"));
 
         JButton mediumGame = createButton("Medium Game", "mediumGame", pane);
-        mediumGame.addActionListener(e -> launchGame(false, "medium"));
+        mediumGame.addActionListener(e -> launchGame("medium"));
 
         JButton hardGame = createButton("Hard Game", "hardGame", pane);
-        hardGame.addActionListener(e -> launchGame(false, "hard"));
+        hardGame.addActionListener(e -> launchGame("hard"));
 
         JButton instructions = createButton("Instructions", "instructions", pane);
         instructions.addActionListener(e -> setUpInstructions());
@@ -89,8 +90,8 @@ public class MainWindow {
         return button;
     }
 
-    private static void launchGame(boolean isNew, String fileName){
-        new FileEditor(isNew, fileName);
+    private static void launchGame(String fileName){
+        new FileEditor(fileName);
         Player_Board.launch();
     }
 
