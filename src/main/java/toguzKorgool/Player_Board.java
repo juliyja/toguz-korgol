@@ -5,15 +5,10 @@ import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -37,7 +32,6 @@ public class Player_Board extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         pane.setMaxSize(1400, 600);
-        makeTopMenu();
 
         setColumnWidth();
 
@@ -107,7 +101,7 @@ public class Player_Board extends Application {
         }
     }
 
-    public static void updateBoard() throws IOException {
+    public static void updateBoard() {
         board.getChildren().clear();
         for (int i = 0; i < buttons.size(); i++) {
             buttons.get(i).paintButton();
@@ -142,20 +136,9 @@ public class Player_Board extends Application {
         FileEditor.saveGame();
     }
 
-    public static void main(String[] args){
-        Application.launch();
-    }
-
     public static ArrayList getButtons() {
         return buttons;
     }
 
-    private static void makeTopMenu() {
-        MenuBar topMenu = new MenuBar();
-        Menu gameMenu = new Menu("Rules");
-        gameMenu.setOnAction(t -> System.out.println("Rules"));
-        topMenu.getMenus().addAll(gameMenu);
-        pane.setTop(topMenu);
-    }
 
 }

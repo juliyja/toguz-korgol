@@ -1,10 +1,14 @@
 package toguzKorgool;
 
 /**
- * A class that is in charge of reading line by line from the text files loading the game. It looks at every line
- * and deconstructs it into simple parts so that it is easier to read from the file and use the information.
+ * A class that is in used to edit file lines and extract the needed information in the required format
+ * for the FileEditor class. It formats passed data so that it can be written in a file and accessed by the
+ * same class later on.
+ *
+ *
+ * @author Emiliyana Tsanova
+ * @version 2018
  */
-
 
 public class FileLine {
     private int holeIndex;
@@ -17,7 +21,6 @@ public class FileLine {
      * @param line - the line to deconstruct in the form of
      *             int-int
      */
-
     public FileLine(String line)
     {
         if(line == null){
@@ -26,9 +29,12 @@ public class FileLine {
             kargoosValue = -1;
         }
         else {
-            holeIndex = Integer.parseInt(line.split("/")[0]);
-            player = Boolean.parseBoolean(line.split("/")[1]);
-            kargoosValue = Integer.parseInt(line.split("/")[2]);
+            String[] lineSplit = line.split("/");
+            holeIndex = Integer.parseInt(lineSplit[0]);
+            if(holeIndex < 0 || holeIndex > 20) holeIndex = -1;
+            player = Boolean.parseBoolean(lineSplit[1]);
+            kargoosValue = Integer.parseInt(lineSplit[2]);
+            if(kargoosValue < 0 || kargoosValue > 162) kargoosValue = -1;
         }
     }
 
@@ -56,4 +62,6 @@ public class FileLine {
     public boolean getPlayer() {
         return player;
     }
+
+    public int getHoleIndex() { return holeIndex; }
 }

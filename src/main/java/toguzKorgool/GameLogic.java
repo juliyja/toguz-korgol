@@ -1,6 +1,5 @@
 package toguzKorgool;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -127,12 +126,7 @@ public class GameLogic {
                     return;
                 }
         }
-
-        try {
             Player_Board.updateBoard();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     // While putting korgools they are collected immediately to the appropriate Kazan if they land in any player's Tuz
