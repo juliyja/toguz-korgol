@@ -1,16 +1,18 @@
 package toguzKorgool;
 
 import javafx.embed.swing.JFXPanel;
-
 import java.awt.*;
 import java.util.concurrent.CountDownLatch;
 import javax.swing.*;
 
 /**
- * The application's main window for the user.
+ * The application's main window for the user. This window contains four functionalities: Single Player, Load
+ * Game, scenarios and Instructions. Single Player starts a new game for a single player. Load Game loads the
+ * last saved position in the previous game played. Scenarios allows the user to choose a game starting position
+ * from several different scenarios. Instructions shows a popup window displaying game instructions.
  *
  * @author Ido Ben-zvi
- * @version 15/11/2018
+ * @version 1.0
  */
 public class MainWindow {
 
@@ -23,7 +25,7 @@ public class MainWindow {
     /**
      * Set up main window.
      */
-    private MainWindow() throws InterruptedException
+    public MainWindow() throws InterruptedException
     {
         final CountDownLatch latch = new CountDownLatch(1);
         SwingUtilities.invokeLater(() -> {
@@ -43,46 +45,58 @@ public class MainWindow {
     private static void setUpMainWindow()
     {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //frame.setLayout(new GridLayout(4, 1));
-
-
         frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(800, 800);
+        frame.setSize(300, 700);
     }
 
+    /**
+     * Creating the menu with the buttons.
+     */
     private static void setUpMenu(){
-        JButton singlePlayer = new JButton("Single Player");
-        singlePlayer.setPreferredSize(new Dimension(300, 150));
-
-        singlePlayer.addActionListener(e -> {
-            new FileEditor(true, "");
-            Player_Board.launch();
-        });
-
-        JButton loadGame = new JButton ("Load Game");
-        loadGame.setPreferredSize(new Dimension(300, 150));
-
-        loadGame.addActionListener(e -> {
-            new FileEditor(false, "save");
-            Player_Board.launch();
-        });
-
-        JButton instructions  = new JButton ("Intructions");
-        instructions.addActionListener(e -> setUpInstructions());
-
         Container pane = frame.getContentPane();
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
-        singlePlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
-        pane.add(singlePlayer);
-        loadGame.setAlignmentX(Component.CENTER_ALIGNMENT);
-        pane.add(loadGame);
-        instructions.setAlignmentX(Component.CENTER_ALIGNMENT);
-        pane.add(instructions);
+        JButton singlePlayer = createButton("Single Player", "singlePlayer", pane);
+        singlePlayer.addActionListener(e -> launchGame(true, ""));
+
+        JButton loadGame = createButton("Load Game", "loadGame", pane);
+        loadGame.addActionListener(e -> launchGame(false, "save"));
+
+        JButton easyGame = createButton("Easy Game", "easyGame", pane);
+        easyGame.addActionListener(e -> launchGame(false, "easy"));
+
+        JButton mediumGame = createButton("Medium Game", "mediumGame", pane);
+        mediumGame.addActionListener(e -> launchGame(false, "medium"));
+
+        JButton hardGame = createButton("Hard Game", "hardGame", pane);
+        hardGame.addActionListener(e -> launchGame(false, "hard"));
+
+        JButton instructions = createButton("Instructions", "instructions", pane);
+        instructions.addActionListener(e -> setUpInstructions());
     }
 
+    /**
+     * Create a button and add it to the main screen.
+     */
+    private static JButton createButton(String text, String name, Container container){
+        JButton button = new JButton(text);
+        button.setPreferredSize(new Dimension(150, 100));
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        container.add(button);
+        button.setName(name);
+        return button;
+    }
+
+    private static void launchGame(boolean isNew, String fileName){
+        new FileEditor(isNew, fileName);
+        Player_Board.launch();
+    }
+
+    /**
+     * Creates a popup window with game instructions.
+     */
     private static void setUpInstructions(){
         JOptionPane.showMessageDialog(frame,
                 "Move\n" +
