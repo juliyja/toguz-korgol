@@ -2,21 +2,13 @@ package toguzKorgool;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -27,9 +19,8 @@ public class Player_Board extends Application {
     private static BorderPane pane = new BorderPane();
     private static GridPane board = new GridPane();
 
-    public Player_Board() throws IOException {
+    public Player_Board(){
         initializeButtons();
-        System.out.println(buttons.size() + "the size of the buttons array");
     }
 
     public static void launch() {
@@ -40,9 +31,6 @@ public class Player_Board extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         pane.setMaxSize(1400, 600);
-        makeTopMenu();
-        makeBottomMenu();
-
 
         setColumnWidth();
 
@@ -82,12 +70,9 @@ public class Player_Board extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
 
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent t) {
-                Platform.exit();
-                System.exit(0);
-            }
+        primaryStage.setOnCloseRequest(t -> {
+            Platform.exit();
+            System.exit(0);
         });
 
     }
@@ -107,15 +92,15 @@ public class Player_Board extends Application {
     }
 
 
-    private static void initializeButtons()  {
-        for (int i = 0; i < File_editor.getDataList().size(); i++) {
+    private static void initializeButtons(){
+        for (int i = 0; i < FileEditor.getDataList().size(); i++) {
             if (i < 10) {
-                buttons.add(new Hole(true, File_editor.getDataList().get(i), i));
-            } else buttons.add(new Hole(false, File_editor.getDataList().get(i), i));
+                buttons.add(new Hole(FileEditor.getPlayer().get(i), FileEditor.getDataList().get(i), i));
+            } else buttons.add(new Hole(FileEditor.getPlayer().get(i), FileEditor.getDataList().get(i), i));
         }
     }
 
-    public static void updateBoard() throws IOException {
+    public static void updateBoard() {
         board.getChildren().clear();
         for (int i = 0; i < buttons.size(); i++) {
             buttons.get(i).paintButton();
@@ -133,8 +118,8 @@ public class Player_Board extends Application {
                     label.setAlignment(Pos.CENTER);
                     board.add(label, c, r, 1, 1);
                 } else if (r == 1) {
-                    buttons.get(c + 1).setPrefSize(board.getPrefWidth(), board.getPrefHeight());
-                    board.add(buttons.get(c + 1), c, r, 1, 1);
+                    buttons.get(9-c).setPrefSize(board.getPrefWidth(), board.getPrefHeight());
+                    board.add(buttons.get(9-c), c, r, 1, 1);
                 } else if (r == 3) {
                     buttons.get(c + 11).setPrefSize(board.getPrefWidth(), board.getPrefHeight());
                     board.add(buttons.get(c + 11), c, r, 1, 1);
@@ -147,69 +132,12 @@ public class Player_Board extends Application {
                 }
             }
         }
-        File_editor.saveGame();
-    }
-
-    public static void main(String[] args) throws IOException {
-        //Player_Board playerBoard = new Player_Board();
-        Application.launch();
+        FileEditor.saveGame();
     }
 
     public static ArrayList getButtons() {
         return buttons;
     }
 
-    private static void makeTopMenu() {
-        MenuBar topMenu = new MenuBar();
-        Menu gameMenu = new Menu("Game");
-        MenuItem save = new MenuItem("Save");
-        save.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                System.out.println("Save");
-            }
-        });
-        MenuItem rules = new MenuItem("Rules");
-        rules.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                System.out.println("Rules");
-            }
-        });
-        MenuItem exit = new MenuItem("Exit");
-        exit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                System.out.println("Exit");
-            }
-        });
-        gameMenu.getItems().addAll(save, rules, exit);
 
-        Menu aboutMenu = new Menu("About");
-        MenuItem aboutGame = new MenuItem("The Game");
-        aboutGame.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                System.out.println("About the game");
-            }
-        });
-        MenuItem aboutAuthors = new MenuItem("Authors");
-        aboutAuthors.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                System.out.println("About the authors");
-            }
-        });
-        aboutMenu.getItems().addAll(aboutGame, aboutAuthors);
-
-        topMenu.getMenus().addAll(gameMenu, aboutMenu);
-        pane.setTop(topMenu);
-    }
-
-
-    private static void makeBottomMenu() {
-        MenuBar bottomMenu = new MenuBar();
-
-        pane.setBottom(bottomMenu);
-    }
 }
