@@ -49,12 +49,12 @@ public class MainWindow {
         frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(800, 800);
+        frame.setSize(300, 450);
     }
 
     private static void setUpMenu(){
         JButton singlePlayer = new JButton("Single Player");
-        singlePlayer.setPreferredSize(new Dimension(300, 150));
+        singlePlayer.setPreferredSize(new Dimension(150, 100));
 
         singlePlayer.addActionListener(e -> {
             new FileEditor(true, "");
@@ -62,7 +62,7 @@ public class MainWindow {
         });
 
         JButton loadGame = new JButton ("Load Game");
-        loadGame.setPreferredSize(new Dimension(300, 150));
+        loadGame.setPreferredSize(new Dimension(150, 100));
 
         loadGame.addActionListener(e -> {
             new FileEditor(false, "save");
