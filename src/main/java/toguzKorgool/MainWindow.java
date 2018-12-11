@@ -7,7 +7,7 @@ import javax.swing.*;
 
 /**
  * The application's main window for the user. This window contains four functionalities: Single Player, Load
- * Game, Scenarios and Instructions. Single Player starts a new game for a single player. Load Game loads the
+ * Game, scenarios and Instructions. Single Player starts a new game for a single player. Load Game loads the
  * last saved position in the previous game played. Scenarios allows the user to choose a game starting position
  * from several different scenarios. Instructions shows a popup window displaying game instructions.
  *
@@ -48,7 +48,7 @@ public class MainWindow {
         frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(300, 450);
+        frame.setSize(300, 700);
     }
 
     /**
@@ -63,6 +63,15 @@ public class MainWindow {
 
         JButton loadGame = createButton("Load Game", "loadGame", pane);
         loadGame.addActionListener(e -> launchGame(false, "save"));
+
+        JButton easyGame = createButton("Easy Game", "easyGame", pane);
+        easyGame.addActionListener(e -> launchGame(false, "easy"));
+
+        JButton mediumGame = createButton("Medium Game", "mediumGame", pane);
+        mediumGame.addActionListener(e -> launchGame(false, "medium"));
+
+        JButton hardGame = createButton("Hard Game", "hardGame", pane);
+        hardGame.addActionListener(e -> launchGame(false, "hard"));
 
         JButton instructions = createButton("Instructions", "instructions", pane);
         instructions.addActionListener(e -> setUpInstructions());
