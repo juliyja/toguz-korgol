@@ -25,7 +25,7 @@ public class MainWindow {
     /**
      * Set up main window.
      */
-    private MainWindow() throws InterruptedException
+    public MainWindow() throws InterruptedException
     {
         final CountDownLatch latch = new CountDownLatch(1);
         SwingUtilities.invokeLater(() -> {
