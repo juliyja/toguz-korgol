@@ -49,13 +49,13 @@ public class GameLogic {
 
             // if the number of korgools in the current hole is 1 leave the current hole empty and update the next by one
             if (count == 1) {
-                // %20 makes the array circular
                 index = index % 20;
                 // omit the indexes 0 and 20 as they are not part of the game
-                if (index == 0 || index == 10) {
+                if (index == 19 || index == 9) {
                     index++;
                 }
                 index++;
+                index = index % 20;
                 holes.get(index).setKorgools(holes.get(index).getKorgools() + 1);
                 // if put into own Tuz then collect to Kazan
                 collectFromTuz(index);
