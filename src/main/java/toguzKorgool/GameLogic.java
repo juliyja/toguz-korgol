@@ -12,6 +12,12 @@ import java.util.Random;
 
 public class GameLogic {
 
+    public static final int WINNING_SCORE = 81;
+    public static final int P1_KAZAN = 0;
+    public static final int P2_KAZAN = 10;
+    public static final int P1_LAST_INDEX = 9;
+    public static final int P2_LAST_INDEX = 19;
+    public static final int BOARD_SIZE = 20;
     private static GameLogic instance;
     private ArrayList<Hole> holes = Player_Board.getButtons();
     private static Random randomIndex = new Random();
@@ -36,107 +42,130 @@ public class GameLogic {
      */
     public void move(int index){
 
-        boolean player1 = index < 10;
+        boolean player1 = index < P2_KAZAN;
         int count = holes.get(index).getKorgools();
 
         // this is here to help display a correct message on the GUI if Hole is empty
-        if (count == 0){
+        if (count == P1_KAZAN){
             state = GameState.EMPTYHOLE;
         }
 
-        if (count > 0) {
+        if (count > P1_KAZAN) {
             holes.get(index).clearKorgools();
 
             // if the number of korgools in the current hole is 1 leave the current hole empty and update the next by one
             if (count == 1) {
-                index = index % 20;
-                // omit the indexes 0 and 20 as they are not part of the game
-                if (index == 19 || index == 9) {
-                    index++;
-                }
-                index++;
-                index = index % 20;
-                holes.get(index).setKorgools(holes.get(index).getKorgools() + 1);
-                // if put into own Tuz then collect to Kazan
-                collectFromTuz(index);
-
-                // minor fix so that the correction after while loop can be applied (see below)
-                index++;
+                index = moveOneKorgool(index);
             }
 
             // if the number of korgools in the current hole is more than 1 redistribute the number of korgools collected
             else {
-                while (count > 0) {
-                    holes.get(index).setKorgools(holes.get(index).getKorgools() + 1);
-                    collectFromTuz(index);
-                    index++;
-                    index = index % 20;
-                    if (index == 0 || index == 10) {
-                        index++;
-                    }
-                    count--;
-                }
+                index = moveMultipleKorgools(index, count);
             }
 
             // since indexes 0 and 10 are not part of any player's holes, they need to be omitted
-            if (index == 1) index = 19;
-            else if (index == 11) index = 9;
-            // while updates index beyond the last index, therefore -- corrects it
-            else index--;
-
+            index = adjustIndex(index);
 
 
             // The following part is about collecting korgools from the last Hole
 
             // if the number of korgools is even and it's the opposite player's hole
-                if (holes.get(index).getPlayer() != player1 && holes.get(index).getKorgools() % 2 == 0) {
-                    holes.get(player1? 0 : 10).setKorgools(holes.get(player1? 0 : 10).getKorgools() + holes.get(index).getKorgools());
-                    holes.get(index).clearKorgools();
-                }
+                if (holes.get(index).getPlayer() != player1 && holes.get(index).getKorgools() % 2 == P1_KAZAN) {
+                    collectPoints(index, player1);
+            }
 
                 // if there are 3 korgools in a hole and it's not the player's Hole nor the last Hole
-                else if (holes.get(index).getPlayer() != player1 && holes.get(index).getKorgools() == 3 && index != (player1? 19 : 9)){
-                    // if opponent doesn't have the same Hole on the opposite side chosen as a Tuz continue checking
-                    if (!holes.get((index + 10)% 20).isTuz()) {
-                        // if the current player didn't already make a Tuz make a Tuz of the current Hole
-                        boolean onlyOneTuz = true;
-                        for (int i = 1; i < 10; i++){
-                            if (holes.get(i + (player1 ? 0 : 10)).isTuz()) onlyOneTuz = false;
-                        }
-                        if (onlyOneTuz) {
-                            holes.get(index).makeTuz();
-                            collectFromTuz(index);
-                        }
-                    }
+                else if (holes.get(index).getPlayer() != player1 && holes.get(index).getKorgools() == 3 && index != (player1? P2_LAST_INDEX : P1_LAST_INDEX)){
+                    makeTuz(index, player1);
+
                 }
 
-                //Exceptions are here to help with the GUI to print the correct message
-                if (holes.get(10).getKorgools() >= 81 || holes.get(0).getKorgools() >= 81) {
-
-                    if (holes.get(10).getKorgools() >= 82) {
-                        state = GameState.P1WON;
-                        return;
-
-                    } else if (holes.get(0).getKorgools() >= 82) {
-                        state = GameState.P2WON;
-                        return;
-                    }
-
-                    state = GameState.DRAW;
-                    return;
-                }
+            setState();
         }
             Player_Board.updateBoard();
+    }
+
+    private void setState() {
+        if (holes.get(P2_KAZAN).getKorgools() >= WINNING_SCORE || holes.get(P1_KAZAN).getKorgools() >= WINNING_SCORE) {
+
+            if (holes.get(P2_KAZAN).getKorgools() > WINNING_SCORE) {
+                state = GameState.P1WON;
+
+            } else if (holes.get(P1_KAZAN).getKorgools() > WINNING_SCORE) {
+                state = GameState.P2WON;
+            }
+
+            state = GameState.DRAW;
+        }
+    }
+
+    private void makeTuz(int index, boolean player1) {
+        // if opponent doesn't have the same Hole on the opposite side chosen as a Tuz continue checking
+        if (!holes.get((index + P2_KAZAN)% BOARD_SIZE).isTuz()) {
+            // if the current player didn't already make a Tuz make a Tuz of the current Hole
+            boolean onlyOneTuz = true;
+            for (int i = 1; i < P2_KAZAN; i++){
+                if (holes.get(i + (player1 ? P1_KAZAN : P2_KAZAN)).isTuz()) onlyOneTuz = false;
+            }
+            if (onlyOneTuz) {
+                holes.get(index).makeTuz();
+                collectFromTuz(index);
+            }
+        }
+    }
+
+    private void collectPoints(int index, boolean player1) {
+        holes.get(player1? P1_KAZAN : P2_KAZAN).setKorgools(holes.get(player1? P1_KAZAN : P2_KAZAN).getKorgools() + holes.get(index).getKorgools());
+        holes.get(index).clearKorgools();
+    }
+
+    private int adjustIndex(int index) {
+        if (index == 1) index = P2_LAST_INDEX;
+        else if (index == 11) index = P1_LAST_INDEX;
+        // while updates index beyond the last index, therefore -- corrects it
+        else index--;
+        return index;
+    }
+
+    private int moveMultipleKorgools(int index, int count) {
+        while (count > P1_KAZAN) {
+            holes.get(index).setKorgools(holes.get(index).getKorgools() + 1);
+            collectFromTuz(index);
+            index++;
+            index = index % BOARD_SIZE;
+            if (index == P1_KAZAN || index == P2_KAZAN) {
+                index++;
+            }
+            count--;
+        }
+        return index;
+    }
+
+    private int moveOneKorgool(int index) {
+        index = index % BOARD_SIZE;
+        // omit the indexes 0 and 20 as they are not part of the game
+        if (index == P2_LAST_INDEX || index == P1_LAST_INDEX) {
+            index++;
+        }
+        index++;
+        index = index % BOARD_SIZE;
+        holes.get(index).setKorgools(holes.get(index).getKorgools() + 1);
+        // if put into own Tuz then collect to Kazan
+        collectFromTuz(index);
+
+        // minor fix so that the correction after while loop can be applied (see below)
+        index++;
+        return index;
     }
 
     // While putting korgools they are collected immediately to the appropriate Kazan if they land in any player's Tuz
     public void collectFromTuz(int index) {
         if (holes.get(index).isTuz()){
-            if (index < 10){
-                holes.get(10).setKorgools(holes.get(10).getKorgools() + holes.get(index).getKorgools());
+            if (index < P2_KAZAN){
+                holes.get(P2_KAZAN).setKorgools(holes.get(P2_KAZAN).getKorgools() + holes.get(index).getKorgools());
             }
             else {
-                holes.get(0).setKorgools(holes.get(0).getKorgools() + holes.get(index).getKorgools());
+                holes.get(P1_KAZAN).setKorgools(holes.get(P1_KAZAN).getKorgools() + holes.get(index).getKorgools());
             }
             holes.get(index).clearKorgools();
         }
