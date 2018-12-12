@@ -61,7 +61,7 @@ public class FileEditorTest {
     public FileEditorTest(Integer[] expectedDataList, Boolean[] expectedPlayerList, String fileName){
         this.expectedDataList = new ArrayList<>(Arrays.asList(expectedDataList));
         this.expectedPlayerList = new ArrayList<>(Arrays.asList(expectedPlayerList));
-        this.fileEditor = new FileEditor(false, fileName);
+        this.fileEditor = new FileEditor(fileName);
         this.fileName = fileName;
     }
 
@@ -93,7 +93,7 @@ public class FileEditorTest {
 
     @After
     public void desctruct(){
-        File newFile = new File("./src/main/java/toguzKorgool/" + fileName + ".txt");
+        File newFile = new File("./src/resources/" + fileName + ".txt");
         newFile.delete();
     }
 

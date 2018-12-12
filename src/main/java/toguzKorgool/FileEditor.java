@@ -18,30 +18,23 @@ public class FileEditor {
     /**
      * An empty constructor.
      */
-    public FileEditor(boolean newGame, String fileName){
+    public FileEditor(String fileName){
         if(fileName == null) {
             writeFile("default");
-            makeDataArray("./src/main/java/toguzKorgool/default.txt");
-        }
-        else if(newGame) {
-            makeDataArray("./src/main/java/toguzKorgool/default.txt");
+            makeDataArray("./src/resources/default.txt");
         }
         else {
             if (fileName.endsWith(".txt")) {
                 new FileEditor(fileName.split(".txt")[0]);
             } else {
-                new FileEditor(fileName);
+                if(fileName.contains("Test")){
+                    makeDataArray("./src/resources/test/" + fileName + ".txt");
+                }
+                else makeDataArray("./src/resources/" + fileName + ".txt");
             }
         }
     }
 
-
-    private FileEditor(String filename){
-        if(filename.contains("Test")){
-            makeDataArray("./src/main/test/java/toguzKorgool/" + filename + ".txt");
-        }
-        else makeDataArray("./src/main/java/toguzKorgool/" + filename + ".txt");
-    }
 
     /**
      * Create an array of integers based on the information in the text file.
@@ -63,7 +56,7 @@ public class FileEditor {
         try {
             while ((line = br.readLine()) != null) {
                 FileLine newLine = new FileLine(line);
-                if(newLine.getKargoolsValue() > 162 || newLine.getKargoolsValue() < 0){
+                if(newLine.getKargoolsValue() == -1 || newLine.getHoleIndex() == -1){
                     writeFile(fileName);
                     return makeDataArray(fileName);
                 }
@@ -125,9 +118,9 @@ public class FileEditor {
         public static boolean saveGame() {
             FileWriter writeToFile;
             try {
-                writeToFile = new FileWriter("./src/main/java/toguzKorgool/save.txt", false);
+                writeToFile = new FileWriter("./src/resources/save.txt", false);
             } catch (IOException e) {
-                new File("./src/main/java/toguzKorgool/save.txt");
+                new File("./src/resources/save.txt");
                 return saveGame();
             }
             PrintWriter printLine = new PrintWriter(writeToFile);
@@ -143,18 +136,5 @@ public class FileEditor {
         public static ArrayList<Boolean> getPlayer(){
             return player;
         }
-
-    /**
-      * TODO: JUST FOR TESTING SO REMOVE ASAP
-     * @param args
-     * @throws IOException
-     */
-    public static void main(String[] args){
-        makeDataArray("default.txt");
-        for(int i = 0; i < dataList.size(); i++){
-            System.out.println(player.get(i));
-            System.out.println(dataList.get(i));
-        }
-    }
 
 }
