@@ -82,7 +82,7 @@ public class GameLogic {
 
             setState();
         }
-            Player_Board.updateBoard();
+            PlayerBoard.updateBoard();
     }
 
     private void setState() {
