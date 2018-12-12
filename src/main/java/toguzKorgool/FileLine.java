@@ -9,7 +9,7 @@ package toguzKorgool;
 public class FileLine {
     private int holeIndex;
     private int kargoosValue;
-
+    private boolean player;
 
     /**
      * A constructor that takes a line from the file and deconstructs it.
@@ -20,8 +20,16 @@ public class FileLine {
 
     public FileLine(String line)
     {
-        this.holeIndex =  Integer.parseInt(line.split("\\-")[0]);
-        this.kargoosValue = Integer.parseInt(line.split("\\-")[1]);
+        if(line == null){
+            holeIndex = -1;
+            player = false;
+            kargoosValue = -1;
+        }
+        else {
+            holeIndex = Integer.parseInt(line.split("/")[0]);
+            player = Boolean.parseBoolean(line.split("/")[1]);
+            kargoosValue = Integer.parseInt(line.split("/")[2]);
+        }
     }
 
     /**
@@ -31,11 +39,11 @@ public class FileLine {
      * @param value The value that is in the whole at the provided index
      * @return a well formatted String that follows the structure of the files.
      */
-    public static String getLine(int index, int value){
+    public static String getLine(int index, boolean player, int value){
         if(index > 19 || index < 0 || value < 0 || value > 162){
             return null;
         }
-        return index + "-" + value;
+        return index + "/" + player + "/" + value;
     }
 
     /**
@@ -45,4 +53,7 @@ public class FileLine {
      */
     public int getKargoolsValue(){ return kargoosValue; }
 
+    public boolean getPlayer() {
+        return player;
+    }
 }
