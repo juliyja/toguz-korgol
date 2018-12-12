@@ -7,9 +7,8 @@ package toguzKorgool;
  *
  *
  * @author Emiliyana Tsanova
- * @version 2018
+ * @version 1.0
  */
-
 public class FileLine {
     private int holeIndex;
     private int kargoosValue;
@@ -17,11 +16,12 @@ public class FileLine {
 
     /**
      * A constructor that takes a line from the file and deconstructs it.
+     * The input is validated for correctness.
      *
-     * @param line - the line to deconstruct in the form of
-     *             int-int
+     * @param line - the line in the form of int/boolean/int
+     *             to deconstruct.
      */
-    public FileLine(String line)
+    FileLine(String line)
     {
         if(line == null){
             holeIndex = -1;
@@ -40,9 +40,11 @@ public class FileLine {
 
     /**
      * Returns a well-formatted string that can be added in the .txt files.
+     * The passed data needs to be legal.
      *
-     * @param index The index of the whole that we are writing in the file
-     * @param value The value that is in the whole at the provided index
+     * @param index The index of the Hole that we are writing data for in the file
+     * @param player The player the Hole is "owned" by
+     * @param value The value that is in the Hole at the provided index
      * @return a well formatted String that follows the structure of the files.
      */
     public static String getLine(int index, boolean player, int value){
@@ -53,15 +55,25 @@ public class FileLine {
     }
 
     /**
-     * A getter method to return the number of kargools inside the hole (the second part of the line).
+     * A getter method to return the number of kargools inside the Hole.
      *
      * @return the number of kargools in the hole.
      */
     public int getKargoolsValue(){ return kargoosValue; }
 
+    /**
+     * A getter method to return the player the Hole is "owned" by.
+     *
+     * @return the player the Hole is "owned" by
+     */
     public boolean getPlayer() {
         return player;
     }
 
+    /**
+     * A getter method to return the index of the current Hole.
+     *
+     * @return the index of the current Hole.
+     */
     public int getHoleIndex() { return holeIndex; }
 }

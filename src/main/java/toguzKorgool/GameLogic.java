@@ -19,7 +19,7 @@ public class GameLogic {
     public static final int P2_LAST_INDEX = 19;
     public static final int BOARD_SIZE = 20;
     private static GameLogic instance;
-    private ArrayList<Hole> holes = Player_Board.getButtons();
+    private ArrayList<Hole> holes = PlayerBoard.getButtons();
     private static Random randomIndex = new Random();
     private static GameState state;
 

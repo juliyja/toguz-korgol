@@ -92,7 +92,7 @@ public class MainWindow {
 
     private static void launchGame(String fileName){
         new FileEditor(fileName);
-        Player_Board.launch();
+        PlayerBoard.launch();
     }
 
     /**
