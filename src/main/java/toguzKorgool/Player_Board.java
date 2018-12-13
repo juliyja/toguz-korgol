@@ -4,12 +4,15 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 public class Player_Board extends Application {
@@ -21,6 +24,7 @@ public class Player_Board extends Application {
 
     public Player_Board(){
         initializeButtons();
+        new AIPlayer();
     }
 
     public static void launch() {
@@ -133,6 +137,30 @@ public class Player_Board extends Application {
             }
         }
         FileEditor.saveGame();
+    }
+
+    public static void gameEndAlert(String description){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Game finished!");
+        alert.setHeaderText(description);
+        alert.setContentText("You can either go to main menu or exit the game.");
+
+        ButtonType buttonTypeExit = new ButtonType("Exit");
+        ButtonType buttonTypeMenu = new ButtonType("Main Menu");
+
+        alert.getButtonTypes().setAll(buttonTypeExit, buttonTypeMenu);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == buttonTypeExit){
+            Platform.exit();
+        }else {
+            Platform.exit();
+            try{
+                new MainWindow();
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     public static ArrayList getButtons() {

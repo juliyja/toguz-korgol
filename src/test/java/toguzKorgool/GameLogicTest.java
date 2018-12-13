@@ -21,7 +21,7 @@ public class GameLogicTest {
     public void settingStateToRunning(){
         GameLogic instance = GameLogic.getInstance();
         instance.setStateToRunning();
-        assertEquals(instance.getState(), GameState.RUNNING);
+        assertEquals(GameState.RUNNING, instance.getState());
     }
 
 }
