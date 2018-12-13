@@ -1,12 +1,9 @@
 package toguzKorgool;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class GameLogicTest {
-
     @org.junit.Test
     public void getInstance() {
         assertEquals(GameLogic.getInstance(),GameLogic.getInstance());
@@ -19,4 +16,12 @@ public class GameLogicTest {
     @org.junit.Test
     public void randomMove() {
     }
+
+    @Test
+    public void settingStateToRunning(){
+        GameLogic instance = GameLogic.getInstance();
+        instance.setStateToRunning();
+        assertEquals(instance.getState(), GameState.RUNNING);
+    }
+
 }
