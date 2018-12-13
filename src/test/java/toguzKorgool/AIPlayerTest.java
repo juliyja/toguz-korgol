@@ -20,10 +20,11 @@ public class AIPlayerTest {
     @Test
     public void testTuzMove(){
         new FileEditor("tuzMoveTest");
-        new Player_Board();
+        new PlayerBoard();
+        //PlayerBoard.reinitializeBoard();
 
         AIPlayer.move();
-        assertEquals(1, ((Hole)Player_Board.getButtons().get(7)).getKorgools());
+        assertEquals(1, ((Hole)PlayerBoard.getButtons().get(7)).getKorgools());
 
 
     }
@@ -31,15 +32,11 @@ public class AIPlayerTest {
     @Test
     public void testNonTuzWithoutTuzMove(){
         new FileEditor("nonTuzNoTuzMoveTest");
-        new Player_Board();
+        new PlayerBoard();
+        //Player_Board.reinitializeBoard();
 
         AIPlayer.move();
-        assertEquals(1, ((Hole)Player_Board.getButtons().get(7)).getKorgools());
-    }
-
-    @After
-    public void deleteBoard(){
-        Platform.exit();
+        assertEquals(1, ((Hole)PlayerBoard.getButtons().get(7)).getKorgools());
     }
 
 }

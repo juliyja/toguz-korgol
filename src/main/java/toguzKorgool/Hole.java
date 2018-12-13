@@ -34,14 +34,13 @@ public class Hole extends Button {
         if(!(index == 0 || index == 10) && player) {
             this.setOnAction(e -> {
                 GameLogic logic = GameLogic.getInstance();
-                switch (logic.getState()){
-                    case RUNNING:
-                        logic.move(index);
-                    case EMPTYHOLE:
-                        System.out.println(logic.getState().getDescription());
-                        GameLogic.setStateToRunning();
-                    default:
-                        System.out.println(GameLogic.getInstance().getState().getDescription());
+                if(logic.getState() == GameState.RUNNING){
+                    logic.move(index);
+                    AIPlayer.move();
+                } else if(logic.getState() == GameState.EMPTYHOLE){
+                    logic.setStateToRunning();
+                } else {
+                    PlayerBoard.gameEndAlert(logic.getState().getDescription());
                 }
             });
         }
