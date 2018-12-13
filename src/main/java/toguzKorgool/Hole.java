@@ -39,8 +39,12 @@ public class Hole extends Button {
                     AIPlayer.move();
                 } else if(logic.getState() == GameState.EMPTYHOLE){
                     logic.setStateToRunning();
-                } else {
-                    PlayerBoard.gameEndAlert(logic.getState().getDescription());
+                } else if(logic.getState() == GameState.DRAW){
+                    PlayerBoard.gameEndAlert(GameState.DRAW.getDescription());
+                } else if(logic.getState() == GameState.P1WON){
+                    PlayerBoard.gameEndAlert(GameState.P1WON.getDescription());
+                } else if(logic.getState() == GameState.P2WON){
+                    PlayerBoard.gameEndAlert(GameState.P2WON.getDescription());
                 }
             });
         }
