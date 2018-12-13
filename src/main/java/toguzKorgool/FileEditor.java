@@ -86,6 +86,17 @@ public class FileEditor {
         return player;
     }
 
+    public static void reinitializeFileEditor(String fileName){
+        if (fileName.endsWith(".txt")) {
+            new FileEditor(fileName.split(".txt")[0]);
+        } else {
+            if(fileName.contains("Test")){
+                makeDataArray("./src/resources/test/" + fileName + ".txt");
+            }
+            else makeDataArray("./src/resources/" + fileName + ".txt");
+        }
+    }
+
     /**
      * Create an array of integers based on the information in the text file.
      * If the final arrayList has different than 20 entries there is an error with the data in the file.

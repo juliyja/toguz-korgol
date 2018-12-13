@@ -146,6 +146,12 @@ public class PlayerBoard extends Application {
         }
     }
 
+    public static void reinitializeBoard(){
+        buttons = new ArrayList<>();
+        initializeButtons();
+        updateButtons();
+    }
+
 
 
     /**

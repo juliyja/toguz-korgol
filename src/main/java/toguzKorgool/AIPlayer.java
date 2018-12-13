@@ -66,7 +66,7 @@ public class AIPlayer {
         if(playerTuz == null){
             for(int i = 0; i < 9; i++){
                 int currentKorgools = aiHoles.get(i).getKorgools();
-                if(currentKorgools == 0 || lastMove(i) < 9) {continue;}
+                if(currentKorgools == 0) {continue;}
                 if((allHoles.get(lastMove(i)).getKorgools() + 1)%2 == 0){
                     int current = allHoles.get(lastMove(i)).getKorgools() + 1;
                     if(current > bestMove){
@@ -78,11 +78,11 @@ public class AIPlayer {
         }else{
             for(int i = 0; i < 9; i++){
                 int currentKorgools = aiHoles.get(i).getKorgools();
-                if(currentKorgools == 0 || lastMove(i) < 9) {continue;}
+                if(currentKorgools == 0) {continue;}
                 if((allHoles.get(lastMove(i)).getKorgools() + 1)%2 == 0){
                     int current = allHoles.get(lastMove(i)).getKorgools() + 1;
                     for(int j = 0; j < currentKorgools - 1; j++){
-                        if(allHoles.get((9 + i + (j - 1))%17) == playerTuz){
+                        if(allHoles.get((9 + i + (j - 1))%18) == playerTuz){
                             current--;
                         }
                     }
@@ -109,7 +109,7 @@ public class AIPlayer {
 
     private static int lastMove(int i){
         int moveIndex = (i + (aiHoles.get(i).getKorgools() - 1));
-        if(moveIndex > 17) {return moveIndex%17 - 1;}
+        if(moveIndex > 17) {return moveIndex%18;}
         else {return moveIndex;}
     }
 
