@@ -5,6 +5,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 
+import java.util.concurrent.TimeUnit;
+
 public class Hole extends Button {
 
 
@@ -23,14 +25,13 @@ public class Hole extends Button {
                     //TODO: FOR TESTING PURPOSES ONLY
                     System.out.println("Pressed");
                     GameLogic logic = GameLogic.getInstance();
-                    switch (logic.getState()){
-                        case RUNNING:
-                            logic.move(index);
-                        case EMPTYHOLE:
-                            System.out.println(logic.getState().getDescription());
-                            logic.setStateToRunning();
-                        default:
-                            System.out.println(GameLogic.getInstance().getState().getDescription());
+                    if(logic.getState() == GameState.RUNNING){
+                        logic.move(index);
+                        AIPlayer.move();
+                    } else if(logic.getState() == GameState.EMPTYHOLE){
+                        logic.setStateToRunning();
+                    } else {
+                        Player_Board.gameEndAlert(logic.getState().getDescription());
                     }
                 }
             });
