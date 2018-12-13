@@ -1,26 +1,45 @@
 package toguzKorgool;
 
-import com.athaydes.automaton.FXApp;
-import com.athaydes.automaton.FXer;
+import static org.junit.Assert.*;
+
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import org.junit.After;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
 
 public class AIPlayerTest {
+
+    @BeforeClass
+    public static void init(){
+        new JFXPanel();
+    }
+
+
     @Test
     public void testTuzMove(){
         new FileEditor("tuzMoveTest");
-        new PlayerBoard();
-        FXApp.initializeIfStageExists();
-        if (FXApp.isInitialized()) {
-            System.out.println("Testing");
-            FXer fxer = FXer.getUserWith( FXApp.getScene().getRoot() );
-            AIPlayer ai = new AIPlayer();
-            ai.move();
-            assertEquals(((Hole)PlayerBoard.getButtons().get(7)).getKorgools(), 1);
+        new Player_Board();
 
-        } else {
-            throw new RuntimeException( "Could not find a JavaFX Stage" );
-        }
+        AIPlayer.move();
+        assertEquals(1, ((Hole)Player_Board.getButtons().get(7)).getKorgools());
+
+
     }
+
+    @Test
+    public void testNonTuzWithoutTuzMove(){
+        new FileEditor("nonTuzNoTuzMoveTest");
+        new Player_Board();
+
+        AIPlayer.move();
+        assertEquals(1, ((Hole)Player_Board.getButtons().get(7)).getKorgools());
+    }
+
+    @After
+    public void deleteBoard(){
+        Platform.exit();
+    }
+
 }
