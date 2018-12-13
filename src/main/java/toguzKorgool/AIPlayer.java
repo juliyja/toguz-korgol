@@ -17,13 +17,13 @@ public class AIPlayer {
         aiHoles = new ArrayList<>();
         allHoles = new ArrayList<>();
         for(int i = 1; i < 10; i++){
-            playerHoles.add((Hole)Player_Board.getButtons().get(i));
+            playerHoles.add((Hole)PlayerBoard.getButtons().get(i));
         }
         for(int i = 11; i < 20; i++){
-            aiHoles.add((Hole)Player_Board.getButtons().get(i));
+            aiHoles.add((Hole)PlayerBoard.getButtons().get(i));
         }
         for(int i = 1; i < 20 && i != 10; i++){
-            allHoles.add((Hole)Player_Board.getButtons().get(i));
+            allHoles.add((Hole)PlayerBoard.getButtons().get(i));
         }
     }
 

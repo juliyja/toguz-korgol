@@ -74,6 +74,8 @@ public class PlayerBoard extends Application {
         //Clear the board's components before adding new ones.
         board.getChildren().clear();
 
+
+
         updateButtons();
 
         //Populate each row and column of the GridPane with labels or buttons.
@@ -201,7 +203,9 @@ public class PlayerBoard extends Application {
      */
     private static void initializeButtons(){
         for (int i = 0; i < FileEditor.getDataList().size(); i++) {
-            buttons.add(new Hole(FileEditor.getPlayer().get(i), FileEditor.getDataList().get(i), i));
+            Hole newButton = new Hole(FileEditor.getPlayer().get(i), FileEditor.getDataList().get(i), i);
+            newButton.setId("Button" + i);
+            buttons.add(newButton);
         }
     }
 

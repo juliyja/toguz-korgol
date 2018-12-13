@@ -172,7 +172,7 @@ public class GameLogic {
     }
 
     // makes a random move for player1 or player2 depending which player is a CP
-    public void randomMove(boolean player1) throws Exception {
+    public void randomMove(boolean player1){
         if(state.getIfFatal()){
             randomMove(player1);
         } else {
