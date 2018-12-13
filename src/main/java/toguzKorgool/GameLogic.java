@@ -12,12 +12,12 @@ import java.util.Random;
 
 public class GameLogic {
 
-    public static final int WINNING_SCORE = 81;
-    public static final int P1_KAZAN = 0;
-    public static final int P2_KAZAN = 10;
-    public static final int P1_LAST_INDEX = 9;
-    public static final int P2_LAST_INDEX = 19;
-    public static final int BOARD_SIZE = 20;
+    private static final int WINNING_SCORE = 81;
+    private static final int P1_KAZAN = 0;
+    private static final int P2_KAZAN = 10;
+    private static final int P1_LAST_INDEX = 9;
+    private static final int P2_LAST_INDEX = 19;
+    private static final int BOARD_SIZE = 20;
     private static GameLogic instance;
     private ArrayList<Hole> holes = PlayerBoard.getButtons();
     private static Random randomIndex = new Random();
