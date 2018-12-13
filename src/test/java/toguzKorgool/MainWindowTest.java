@@ -58,3 +58,4 @@ public class MainWindowTest {
         Platform.exit();
     }
 }
+

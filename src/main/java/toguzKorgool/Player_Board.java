@@ -4,17 +4,15 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 public class Player_Board extends Application {
@@ -26,7 +24,7 @@ public class Player_Board extends Application {
 
     public Player_Board(){
         initializeButtons();
-        System.out.println(buttons.size() + "the size of the buttons array");
+        new AIPlayer();
     }
 
     public static void launch() {
@@ -37,7 +35,6 @@ public class Player_Board extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         pane.setMaxSize(1400, 600);
-        makeTopMenu();
 
         setColumnWidth();
 
@@ -107,7 +104,7 @@ public class Player_Board extends Application {
         }
     }
 
-    public static void updateBoard() throws IOException {
+    public static void updateBoard() {
         board.getChildren().clear();
         for (int i = 0; i < buttons.size(); i++) {
             buttons.get(i).paintButton();
@@ -142,20 +139,33 @@ public class Player_Board extends Application {
         FileEditor.saveGame();
     }
 
-    public static void main(String[] args){
-        Application.launch();
+    public static void gameEndAlert(String description){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Game finished!");
+        alert.setHeaderText(description);
+        alert.setContentText("You can either go to main menu or exit the game.");
+
+        ButtonType buttonTypeExit = new ButtonType("Exit");
+        ButtonType buttonTypeMenu = new ButtonType("Main Menu");
+
+        alert.getButtonTypes().setAll(buttonTypeExit, buttonTypeMenu);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() == buttonTypeExit){
+            Platform.exit();
+        }else {
+            Platform.exit();
+            try{
+                new MainWindow();
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     public static ArrayList getButtons() {
         return buttons;
     }
 
-    private static void makeTopMenu() {
-        MenuBar topMenu = new MenuBar();
-        Menu gameMenu = new Menu("Rules");
-        gameMenu.setOnAction(t -> System.out.println("Rules"));
-        topMenu.getMenus().addAll(gameMenu);
-        pane.setTop(topMenu);
-    }
 
 }
