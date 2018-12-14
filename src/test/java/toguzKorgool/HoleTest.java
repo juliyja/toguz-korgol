@@ -33,7 +33,7 @@ import static org.junit.Assert.assertNotEquals;
         private int index;
 
         public HoleTest(boolean player, int korgools, int index){
-            final CountDownLatch latch = new CountDownLatch(0);
+            final CountDownLatch latch = new CountDownLatch(1);
             SwingUtilities.invokeLater(() -> {
                 new JFXPanel();
                 latch.countDown();
@@ -43,7 +43,6 @@ import static org.junit.Assert.assertNotEquals;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
             this.player = player;
             this.korgools = korgools;
             this.index = index;
