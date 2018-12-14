@@ -3,6 +3,8 @@ package toguzKorgool;
 
 import javafx.scene.control.Button;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * A class extending Button to provide the required by the GameLogic and PlayerBoard functionality.
  * The Hole instance has a player, number of korgools and tuz variables, as well as the inherited from Button
@@ -36,15 +38,17 @@ public class Hole extends Button {
                 GameLogic logic = GameLogic.getInstance();
                 if(logic.getState() == GameState.RUNNING){
                     logic.move(index);
+                    PlayerBoard.updateBoard();
                     AIPlayer.move();
+                    if(logic.getState() == GameState.DRAW){
+                        PlayerBoard.gameEndAlert(GameState.DRAW.getDescription());
+                    } else if(logic.getState() == GameState.P1WON){
+                        PlayerBoard.gameEndAlert(GameState.P1WON.getDescription());
+                    } else if(logic.getState() == GameState.P2WON){
+                        PlayerBoard.gameEndAlert(GameState.P2WON.getDescription());
+                    }
                 } else if(logic.getState() == GameState.EMPTYHOLE){
                     logic.setStateToRunning();
-                } else if(logic.getState() == GameState.DRAW){
-                    PlayerBoard.gameEndAlert(GameState.DRAW.getDescription());
-                } else if(logic.getState() == GameState.P1WON){
-                    PlayerBoard.gameEndAlert(GameState.P1WON.getDescription());
-                } else if(logic.getState() == GameState.P2WON){
-                    PlayerBoard.gameEndAlert(GameState.P2WON.getDescription());
                 }
             });
         }
