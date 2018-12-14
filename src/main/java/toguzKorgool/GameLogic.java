@@ -42,7 +42,7 @@ public class GameLogic {
      */
     public void move(int index){
 
-        boolean player1 = index < P2_KAZAN;
+        boolean player1 = (index < P2_KAZAN);
         int count = holes.get(index).getKorgools();
 
         // this is here to help display a correct message on the GUI if Hole is empty
@@ -70,12 +70,12 @@ public class GameLogic {
             // The following part is about collecting korgools from the last Hole
 
             // if the number of korgools is even and it's the opposite player's hole
-                if (holes.get(index).getPlayer() != player1 && holes.get(index).getKorgools() % 2 == P1_KAZAN) {
+                if (holes.get(index).getPlayer() == player1 && holes.get(index).getKorgools() % 2 == 0) {
                     collectPoints(index, player1);
             }
 
                 // if there are 3 korgools in a hole and it's not the player's Hole nor the last Hole
-                else if (holes.get(index).getPlayer() != player1 && holes.get(index).getKorgools() == 3 && index != (player1? P2_LAST_INDEX : P1_LAST_INDEX)){
+                else if (holes.get(index).getPlayer() == player1 && holes.get(index).getKorgools() == 3 && index != (player1? P2_LAST_INDEX : P1_LAST_INDEX)){
                     makeTuz(index, player1);
 
                 }
@@ -153,8 +153,8 @@ public class GameLogic {
         // if put into own Tuz then collect to Kazan
         collectFromTuz(index);
 
-        // minor fix so that the correction after while loop can be applied (see below)
         index++;
+        // minor fix so that the correction after while loop can be applied (see below)
         return index;
     }
 
