@@ -1,16 +1,11 @@
 package toguzKorgool;
 
-import static java.lang.Thread.sleep;
-import static org.junit.Assert.*;
-
-import com.athaydes.automaton.FXApp;
-import com.athaydes.automaton.FXer;
 import javafx.embed.swing.JFXPanel;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import javax.swing.*;
-import java.util.concurrent.CountDownLatch;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class GameLogicTest {
 
