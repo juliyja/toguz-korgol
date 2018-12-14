@@ -158,7 +158,7 @@ public class GameLogic {
     }
 
     // While putting korgools they are collected immediately to the appropriate Kazan if they land in any player's Tuz
-    public void collectFromTuz(int index) {
+    private void collectFromTuz(int index) {
         if (holes.get(index).isTuz()){
             if (index < P2_KAZAN){
                 holes.get(P2_KAZAN).setKorgools(holes.get(P2_KAZAN).getKorgools() + holes.get(index).getKorgools());
@@ -171,7 +171,7 @@ public class GameLogic {
     }
 
     // makes a random move for player1 or player2 depending which player is a CP
-    public void randomMove(boolean player1){
+    private void randomMove(boolean player1){
         if(state.getIfFatal()){
             randomMove(player1);
         } else {
