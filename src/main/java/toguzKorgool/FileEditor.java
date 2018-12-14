@@ -88,7 +88,7 @@ public class FileEditor {
 
     /**
      * A method to initialize this class from a different file.
-     * 
+     *
      * @param fileName of a file to reinitialize
      */
     public static void reinitializeFileEditor(String fileName){
