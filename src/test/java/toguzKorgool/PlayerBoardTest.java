@@ -2,6 +2,7 @@ package toguzKorgool;
 
 import com.athaydes.automaton.FXApp;
 import com.athaydes.automaton.FXer;
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import org.junit.Test;
 
@@ -22,16 +23,24 @@ public class PlayerBoardTest {
         });
         latch.await();
 
-
+        sleep(1000);
         FileEditor editor = new FileEditor("default");
-        FXApp.startApp( new PlayerBoard() );
+       // FXApp.startApp( new PlayerBoard() );
         FXer fxer = FXer.getUserWith( FXApp.getScene().getRoot() );
         sleep(1000);
 
         fxer.clickOn( "#Button11" );
         sleep(1000);
-        assertEquals(PlayerBoard.getButtons().get(11).getKorgools(), 1);
-        sleep(1000);
+        assertEquals(PlayerBoard.getButtons().get(11).getKorgools(), 2);
+        sleep(2000);
+
+        System.out.println(FXApp.getStage().getX()+1200);
+        System.out.println(FXApp.getStage().getY()+20);
+
+        fxer.moveTo(FXApp.getStage().getX()+1200, FXApp.getStage().getY()+20);
+        fxer.click();
+        sleep(2000);
+        Platform.exit();
     }
 
 
