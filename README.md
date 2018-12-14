@@ -1,3 +1,3 @@
-# SEG_Agile_Project
+# SEG Agile Project
 
 For testing we have used automaton. We also used hamcrest to make the tests more readible. 
