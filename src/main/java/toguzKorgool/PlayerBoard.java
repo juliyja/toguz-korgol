@@ -122,6 +122,12 @@ public class PlayerBoard extends Application {
         return buttons;
     }
 
+
+    /**
+     * A method to display an alert when the game is finished.
+     *
+     * @param description description of the game's ending condition
+     */
     public static void gameEndAlert(String description){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Game finished!");
@@ -146,6 +152,10 @@ public class PlayerBoard extends Application {
         }
     }
 
+
+    /**
+     * A method to initialize buttons again.
+     */
     public static void reinitializeBoard(){
         buttons = new ArrayList<>();
         initializeButtons();
