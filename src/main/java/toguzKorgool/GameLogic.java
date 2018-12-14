@@ -80,12 +80,12 @@ public class GameLogic {
 
                 }
 
-            setState();
+            setState(player1);
         }
             PlayerBoard.updateBoard();
     }
 
-    private void setState() {
+    private void setState(boolean player1) {
 
             if (holes.get(P2_KAZAN).getKorgools() > WINNING_SCORE) {
                 state = GameState.P1WON;
@@ -95,6 +95,16 @@ public class GameLogic {
             }
             else if (holes.get(P2_KAZAN).getKorgools() == 81 && holes.get(P1_KAZAN).getKorgools() == 81) {
                 state = GameState.DRAW;
+            }
+            else {
+                boolean allEmpty = true;
+                for (int i = 1; i < 10; i++) {
+                if (holes.get(i + (!player1 ? 10 : 0)).getKorgools() != 0) allEmpty = false;
+                }
+                if (allEmpty) {
+                    if (holes.get(P1_KAZAN).getKorgools() > holes.get(P2_KAZAN).getKorgools())  state = GameState.P2WON;
+                    else state = GameState.P1WON;
+                }
             }
     }
 
