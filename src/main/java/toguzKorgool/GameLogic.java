@@ -42,7 +42,7 @@ public class GameLogic {
      */
     public void move(int index){
 
-        boolean player1 = index < P2_KAZAN;
+        boolean player1 = (index < P2_KAZAN);
         int count = holes.get(index).getKorgools();
 
         // this is here to help display a correct message on the GUI if Hole is empty
@@ -70,12 +70,12 @@ public class GameLogic {
             // The following part is about collecting korgools from the last Hole
 
             // if the number of korgools is even and it's the opposite player's hole
-                if (holes.get(index).getPlayer() != player1 && holes.get(index).getKorgools() % 2 == P1_KAZAN) {
+                if (holes.get(index).getPlayer() == player1 && holes.get(index).getKorgools() % 2 == 0) {
                     collectPoints(index, player1);
             }
 
                 // if there are 3 korgools in a hole and it's not the player's Hole nor the last Hole
-                else if (holes.get(index).getPlayer() != player1 && holes.get(index).getKorgools() == 3 && index != (player1? P2_LAST_INDEX : P1_LAST_INDEX)){
+                else if (holes.get(index).getPlayer() == player1 && holes.get(index).getKorgools() == 3 && index != (player1? P2_LAST_INDEX : P1_LAST_INDEX)){
                     makeTuz(index, player1);
 
                 }
@@ -86,7 +86,6 @@ public class GameLogic {
     }
 
     private void setState() {
-        if (holes.get(P2_KAZAN).getKorgools() >= WINNING_SCORE || holes.get(P1_KAZAN).getKorgools() >= WINNING_SCORE) {
 
             if (holes.get(P2_KAZAN).getKorgools() > WINNING_SCORE) {
                 state = GameState.P1WON;
@@ -94,18 +93,18 @@ public class GameLogic {
             } else if (holes.get(P1_KAZAN).getKorgools() > WINNING_SCORE) {
                 state = GameState.P2WON;
             }
-
-            state = GameState.DRAW;
-        }
+            else if (holes.get(P2_KAZAN).getKorgools() == 81 && holes.get(P1_KAZAN).getKorgools() == 81) {
+                state = GameState.DRAW;
+            }
     }
 
     private void makeTuz(int index, boolean player1) {
         // if opponent doesn't have the same Hole on the opposite side chosen as a Tuz continue checking
-        if (!holes.get((index + P2_KAZAN)% BOARD_SIZE).isTuz()) {
+        if (!holes.get((index + 10)% BOARD_SIZE).isTuz()) {
             // if the current player didn't already make a Tuz make a Tuz of the current Hole
             boolean onlyOneTuz = true;
-            for (int i = 1; i < P2_KAZAN; i++){
-                if (holes.get(i + (player1 ? P1_KAZAN : P2_KAZAN)).isTuz()) onlyOneTuz = false;
+            for (int i = 1; i < 10; i++){
+                if (holes.get(i + (!player1 ? 0 : 10)).isTuz()) onlyOneTuz = false;
             }
             if (onlyOneTuz) {
                 holes.get(index).makeTuz();
@@ -153,8 +152,8 @@ public class GameLogic {
         // if put into own Tuz then collect to Kazan
         collectFromTuz(index);
 
-        // minor fix so that the correction after while loop can be applied (see below)
         index++;
+        // minor fix so that the correction after while loop can be applied (see below)
         return index;
     }
 
