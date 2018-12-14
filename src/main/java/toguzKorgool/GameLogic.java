@@ -86,7 +86,6 @@ public class GameLogic {
     }
 
     private void setState() {
-        if (holes.get(P2_KAZAN).getKorgools() >= WINNING_SCORE || holes.get(P1_KAZAN).getKorgools() >= WINNING_SCORE) {
 
             if (holes.get(P2_KAZAN).getKorgools() > WINNING_SCORE) {
                 state = GameState.P1WON;
@@ -94,18 +93,18 @@ public class GameLogic {
             } else if (holes.get(P1_KAZAN).getKorgools() > WINNING_SCORE) {
                 state = GameState.P2WON;
             }
-
-            state = GameState.DRAW;
-        }
+            else if (holes.get(P2_KAZAN).getKorgools() == 81 && holes.get(P1_KAZAN).getKorgools() == 81) {
+                state = GameState.DRAW;
+            }
     }
 
     private void makeTuz(int index, boolean player1) {
         // if opponent doesn't have the same Hole on the opposite side chosen as a Tuz continue checking
-        if (!holes.get((index + P2_KAZAN)% BOARD_SIZE).isTuz()) {
+        if (!holes.get((index + 10)% BOARD_SIZE).isTuz()) {
             // if the current player didn't already make a Tuz make a Tuz of the current Hole
             boolean onlyOneTuz = true;
-            for (int i = 1; i < P2_KAZAN; i++){
-                if (holes.get(i + (player1 ? P1_KAZAN : P2_KAZAN)).isTuz()) onlyOneTuz = false;
+            for (int i = 1; i < 10; i++){
+                if (holes.get(i + (!player1 ? 0 : 10)).isTuz()) onlyOneTuz = false;
             }
             if (onlyOneTuz) {
                 holes.get(index).makeTuz();
