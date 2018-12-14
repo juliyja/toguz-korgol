@@ -1,79 +1,140 @@
 package toguzKorgool;
 
-import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.ImagePattern;
-import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
+public class PlayerBoard {
 
-/**
- * The class in charge of visualizing the board, populating it with Holes and interacting with the user.
- * After every move made either by active or AI player the board and all of it's underlying components is updated
- * to show a new state.
- * The class extends Application to provide a singleton functionality preventing the creation of multiple PlayerBoards
- * simultaneously leading to multiple threads manipulating the same text files.
- *
- * @author Emiliyana Tsanova
- * @version 1.0
- */
-
-public class PlayerBoard extends Application {
-
+    // The pane containing the Holes on the board.
+    private static GridPane board;
     //The array of Holes displayed on the board.
     private static ArrayList<Hole> buttons = new ArrayList<>();
-    // The pane containing the GridPane
-    private static BorderPane pane = new BorderPane();
-    // The pane containing the Holes on the board.
-    private static GridPane board = new GridPane();
+    //The instance of the PlayerBoard
+    private static PlayerBoard instance;
+    //The frame of the Board.
+    private static JFrame frame;
+    //The panel of the Board.
+    private static JFXPanel fxPanel;
 
-    /**
-     * A constructor for the PlayerBoard. It does not take parameters and
-     * call the initializeButtons method.
-     */
+
     public PlayerBoard(){
+        if(instance == null){
+            launch();
+            instance = this;
+        }
+        else {
+            refreshState();
+            instance = this;
+        }
+    }
+
+    public static void launch(){
         initializeButtons();
+        SwingUtilities.invokeLater(() -> initAndShowGUI());
+    }
+
+    public static void refreshState() {
+        buttons.clear();
+        launch();
+    }
+
+    public static PlayerBoard getInstance(){
+        if(instance != null){
+            new PlayerBoard();
+        }
+        return instance;
+    }
+    private static void initAndShowGUI() {
+        board = new GridPane();
+        frame = new JFrame("Toguz Korgool");
+        fxPanel = new JFXPanel();
+        frame.add(fxPanel);
+        frame.setSize(1200, 650);
+        frame.repaint();
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setResizable(false);
+        Platform.runLater(() -> initFX(fxPanel));
         new AIPlayer();
-    }
-
-    /**
-     * The method used by default by the Application class to launch. It calls the constructor of the PlayerBoard class
-     * and the overwritten start method.
-     */
-    public static void launch() {
-        Application.launch();
+        frame.setVisible(true);
     }
 
 
     /**
-     * The method setting up the Application's view. It calls methods setting up different components in
-     * the correct order.
+     * A getter method that returns the Holes contained by the Player Board.
      *
-     * @param primaryStage the Stage where the Application will be executed.
+     * @return the Holes contained by the Player Board.
      */
-    @Override
-    public void start(Stage primaryStage){
-        primaryStage.setTitle("Toguz Korgool");
-
-        setUpBoard();
-
-        setUpBorderPane();
-
-        setPrimaryStage(primaryStage);
+    public static ArrayList<Hole> getButtons() {
+        return buttons;
     }
 
+    private static void setColumnWidth() {
+        for (int i = 0; i < 9; i++) {
+            board.getColumnConstraints().add(new ColumnConstraints(111));
+        }
+    }
+
+    public static JFrame getFrame(){return frame;}
+
+    public static JFXPanel getPanel(){return fxPanel;}
+
     /**
-     * Updates the state of the board by updating the components contained.
+     * A setter method used to set the height of each row of the GridPane.
      */
+    private static void setRowHeight() {
+        for (int i = 0; i < 5; i++) {
+            if (i == 0 || i == 4) {
+                board.getRowConstraints().add(new RowConstraints(50));
+            } else board.getRowConstraints().add(new RowConstraints(150));
+        }
+    }
+
+    private static void initFX(JFXPanel fxPanel) {
+
+        setColumnWidth();
+        setRowHeight();
+
+        board.setAlignment(Pos.CENTER);
+
+        board.setPrefSize(1400, 600);
+
+        board.setGridLinesVisible(true);
+
+        board.setVgap(10);
+        board.setHgap(10);
+
+        board.setStyle("-fx-background-color: transparent;");
+
+        updateBoard();
+
+
+        BorderPane pane = new BorderPane();
+        pane.setMaxSize(1400, 600);
+        pane.setCenter(board);
+
+        // This method is invoked on the JavaFX thread
+
+        Scene scene = new Scene(pane, 1200, 600);
+        scene.setFill(new ImagePattern(new Image("file:./src/main/java/toguzKorgool/board.jpg")));
+        fxPanel.setScene(scene);
+
+    }
+
     public static void updateBoard(){
         //Clear the board's components before adding new ones.
         board.getChildren().clear();
@@ -112,22 +173,28 @@ public class PlayerBoard extends Application {
         }
     }
 
-
     /**
-     * A getter method that returns the Holes contained by the Player Board.
-     *
-     * @return the Holes contained by the Player Board.
+     * A method that refreshes the state of each Hole on the board.
      */
-    public static ArrayList<Hole> getButtons() {
-        return buttons;
+    private static void updateButtons(){
+        for (Hole button : buttons) {
+            button.updateHole();
+        }
     }
 
 
     /**
-     * A method to display an alert when the game is finished.
-     *
-     * @param description description of the game's ending condition
+     * Based on the information provided by the FileEditor class the buttons array is populated
+     * with instances of the Hole class.
      */
+    private static void initializeButtons(){
+        for (int i = 0; i < FileEditor.getDataList().size(); i++) {
+            Hole newButton = new Hole(FileEditor.getPlayer().get(i), FileEditor.getDataList().get(i), i);
+            newButton.setId("Button" + i);
+            buttons.add(newButton);
+        }
+    }
+
     public static void gameEndAlert(String description){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Game finished!");
@@ -153,112 +220,5 @@ public class PlayerBoard extends Application {
     }
 
 
-    /**
-     * A method to initialize buttons again.
-     */
-    public static void reinitializeBoard(){
-        buttons = new ArrayList<>();
-        initializeButtons();
-    }
-
-
-
-    /**
-     * A method to set up the view of the primary stage of the player board.
-     *
-     * @param primaryStage the stage the Application will be executed in.
-     */
-    private void setPrimaryStage(Stage primaryStage){
-        Scene scene = setUpScene();
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-
-        primaryStage.setOnCloseRequest(t -> {
-            Platform.exit();
-            System.exit(0);
-        });
-    }
-
-    /**
-     * A method to set up the scene for the application's Stage.
-     *
-     * @return the Scene for the application's stage.
-     */
-    private static Scene setUpScene(){
-        Scene scene = new Scene(pane, 1200, 600);
-        scene.setFill(new ImagePattern(new Image("file:./src/main/java/toguzKorgool/board.jpg")));
-        return scene;
-    }
-
-    /**
-     * A method to set up the Border Pane containing the GridPane.
-     */
-    private static void setUpBorderPane(){
-        pane.setMaxSize(1400, 600);
-        pane.setCenter(board);
-    }
-
-    /**
-     * A method to set up the view of the GridPane representing the player board the user interacts with.
-     */
-    private static void setUpBoard(){
-        setColumnWidth();
-        setRowHeight();
-
-        board.setAlignment(Pos.CENTER);
-
-        board.setPrefSize(1400, 600);
-
-        board.setGridLinesVisible(true);
-
-        board.setVgap(10);
-        board.setHgap(10);
-
-        board.setStyle("-fx-background-color: transparent;");
-
-        updateBoard();
-    }
-
-    /**
-     * A setter used to set the width of the columns of the GridPane.
-     */
-    private static void setColumnWidth() {
-        for (int i = 0; i < 9; i++) {
-            board.getColumnConstraints().add(new ColumnConstraints(111));
-        }
-    }
-
-    /**
-     * A setter method used to set the height of each row of the GridPane.
-     */
-    private static void setRowHeight() {
-        for (int i = 0; i < 5; i++) {
-            if (i == 0 || i == 4) {
-                board.getRowConstraints().add(new RowConstraints(50));
-            } else board.getRowConstraints().add(new RowConstraints(150));
-        }
-    }
-
-    /**
-     * Based on the information provided by the FileEditor class the buttons array is populated
-     * with instances of the Hole class.
-     */
-    private static void initializeButtons(){
-        for (int i = 0; i < FileEditor.getDataList().size(); i++) {
-            Hole newButton = new Hole(FileEditor.getPlayer().get(i), FileEditor.getDataList().get(i), i);
-            newButton.setId("Button" + i);
-            buttons.add(newButton);
-        }
-    }
-
-
-    /**
-     * A method that refreshes the state of each Hole on the board.
-     */
-    private static void updateButtons(){
-        for (Hole button : buttons) {
-            button.updateHole();
-        }
-    }
 }
+

@@ -83,6 +83,7 @@ public class GameLogic {
             setState();
         }
             PlayerBoard.updateBoard();
+            FileEditor.saveGame();
     }
 
     private void setState() {

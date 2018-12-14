@@ -28,6 +28,10 @@ public class FileEditor {
      * @param fileName the file the game will be loaded from.
      */
     FileEditor(String fileName){
+        if(dataList != null || player != null){
+            dataList.clear();
+            player.clear();
+        }
         if(fileName == null) {
             writeFile("default");
             makeDataArray("./src/resources/default.txt");
