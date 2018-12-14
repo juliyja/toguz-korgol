@@ -40,7 +40,7 @@ public class AIPlayer {
         if(aiTuz != null) {return false;}
         for(int i = 0; i < 9; i++){
             int currentKorgools = aiHoles.get(i).getKorgools();
-            if(currentKorgools == 0 || lastMove(i) ==8 || lastMove(i) == 17){continue;}
+            if(currentKorgools == 0 || aiHoles.contains(allHoles.get(lastMove(i))) || lastMove(i) == 17){continue;}
             if(allHoles.get(lastMove(i)).getKorgools() == 2){
                 return true;
             }
@@ -51,7 +51,7 @@ public class AIPlayer {
     private static int makeTuzMove(){
         for(int i = 0; i < 9; i++){
             int currentKorgools = aiHoles.get(i).getKorgools();
-            if(currentKorgools == 0 || lastMove(i) == 8 || lastMove(i) == 17){continue;}
+            if(currentKorgools == 0 || aiHoles.contains(allHoles.get(lastMove(i))) || lastMove(i) == 17){continue;}
             if(allHoles.get(lastMove(i)).getKorgools() == 2){
                 return convertToIndex(i);
             }
@@ -66,7 +66,7 @@ public class AIPlayer {
         if(playerTuz == null){
             for(int i = 0; i < 9; i++){
                 int currentKorgools = aiHoles.get(i).getKorgools();
-                if(currentKorgools == 0) {continue;}
+                if(currentKorgools == 0 || aiHoles.contains(allHoles.get(lastMove(i)))) {continue;}
                 if((allHoles.get(lastMove(i)).getKorgools() + 1)%2 == 0){
                     int current = allHoles.get(lastMove(i)).getKorgools() + 1;
                     if(current > bestMove){
@@ -78,11 +78,11 @@ public class AIPlayer {
         }else{
             for(int i = 0; i < 9; i++){
                 int currentKorgools = aiHoles.get(i).getKorgools();
-                if(currentKorgools == 0) {continue;}
+                if(currentKorgools == 0 || aiHoles.contains(allHoles.get(lastMove(i)))) {continue;}
                 if((allHoles.get(lastMove(i)).getKorgools() + 1)%2 == 0){
                     int current = allHoles.get(lastMove(i)).getKorgools() + 1;
-                    for(int j = 0; j < currentKorgools - 1; j++){
-                        if(allHoles.get((9 + i + (j - 1))%18) == playerTuz){
+                    for(int j = 1; j < currentKorgools - 1; j++){
+                        if(allHoles.get((i + j)%18) == playerTuz){
                             current--;
                         }
                     }
