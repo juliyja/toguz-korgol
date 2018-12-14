@@ -12,8 +12,7 @@ public class AIPlayerTest {
     @BeforeClass
     public static void init(){
         new JFXPanel();
-        new FileEditor(null);
-        new PlayerBoard();
+
     }
 
 
@@ -21,9 +20,11 @@ public class AIPlayerTest {
     public void testTuzMove(){
         FileEditor.reinitializeFileEditor("tuzMoveTest");
         PlayerBoard.reinitializeBoard();
+        new AIPlayer();
+        GameLogic.getInstance().refreshHoles();
 
         AIPlayer.move();
-        assertEquals(1, ((Hole)PlayerBoard.getButtons().get(7)).getKorgools());
+        assertEquals(1, (PlayerBoard.getButtons().get(7)).getKorgools());
 
 
     }
@@ -31,11 +32,24 @@ public class AIPlayerTest {
     @Test
     public void testNonTuzWithoutTuzMove(){
         FileEditor.reinitializeFileEditor("nonTuzNoTuzMoveTest");
-        new PlayerBoard();
         PlayerBoard.reinitializeBoard();
+        GameLogic.getInstance().refreshHoles();
+        new AIPlayer();
 
         AIPlayer.move();
-        assertEquals(1, ((Hole)PlayerBoard.getButtons().get(7)).getKorgools());
+        assertEquals(1, (PlayerBoard.getButtons().get(7)).getKorgools());
+    }
+
+    @Test
+    public void testNonTuzWithTuzMove(){
+        FileEditor.reinitializeFileEditor("nonTuzWithTuzMoveTest");
+        PlayerBoard.reinitializeBoard();
+        GameLogic.getInstance().refreshHoles();
+        PlayerBoard.getButtons().get(6).makeTuz();
+        new AIPlayer();
+
+        AIPlayer.move();
+        assertEquals(1, PlayerBoard.getButtons().get(7).getKorgools());
     }
 
 }

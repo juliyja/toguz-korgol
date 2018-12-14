@@ -188,4 +188,8 @@ public class GameLogic {
         state = GameState.RUNNING;
     }
 
+    public void refreshHoles(){
+        holes = PlayerBoard.getButtons();
+    }
+
 }
