@@ -1,7 +1,5 @@
 package toguzKorgool;
 
-//import javax.swing.*;
-//import static org.junit.Assert.*;
 import javafx.application.Platform;
 import org.junit.After;
 import org.junit.Test;
