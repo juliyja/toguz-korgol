@@ -1,16 +1,11 @@
 package toguzKorgool;
 
-import static java.lang.Thread.sleep;
-import static org.junit.Assert.*;
-
-import com.athaydes.automaton.FXApp;
-import com.athaydes.automaton.FXer;
 import javafx.embed.swing.JFXPanel;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import javax.swing.*;
-import java.util.concurrent.CountDownLatch;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class GameLogicTest {
 
@@ -25,21 +20,58 @@ public class GameLogicTest {
     }
 
 
-    @Test
-    public void move() {
+@Test
+    public void movementTest (){
+        moveTest();
+        collectEvenTest();
+        moveOneKorgoolTest();
+        makeTuzTest();
+}
 
-            new FileEditor("tuzMoveTest");
+    private void moveTest() {
+
+            new FileEditor("simpleMoveTest");
             new PlayerBoard();
             //PlayerBoard.reinitializeBoard();
 
-            GameLogic.getInstance().move(11);
-            assertEquals(1, ((Hole)PlayerBoard.getButtons().get(11)).getKorgools());
+            GameLogic.getInstance().move(12);
+            assertEquals(1, (PlayerBoard.getButtons().get(12)).getKorgools());
+            assertEquals(10, (PlayerBoard.getButtons().get(10)).getKorgools());
 
     }
 
-    @org.junit.Test
-    public void randomMove() {
+
+    private void moveOneKorgoolTest() {
+
+        new FileEditor("oneKorgoolTest");
+        new PlayerBoard();
+        //PlayerBoard.reinitializeBoard();
+
+        GameLogic.getInstance().move(12);
+        assertEquals(0, (PlayerBoard.getButtons().get(12)).getKorgools());
+        assertEquals(2, (PlayerBoard.getButtons().get(13)).getKorgools());
     }
+
+    private void collectEvenTest() {
+        new FileEditor("collectEvenHole");
+        new PlayerBoard();
+        //PlayerBoard.reinitializeBoard();
+
+        GameLogic.getInstance().move(13);
+        assertEquals(0, (PlayerBoard.getButtons().get(3)).getKorgools());
+        assertEquals(20, (PlayerBoard.getButtons().get(10)).getKorgools());
+    }
+
+private void makeTuzTest() {
+    new FileEditor("collectEvenHole");
+    new PlayerBoard();
+    //PlayerBoard.reinitializeBoard();
+
+    GameLogic.getInstance().move(19);
+    GameLogic.getInstance().move(19);
+    assertTrue(PlayerBoard.getButtons().get(1).isTuz());
+}
+
 
     @Test
     public void settingStateToRunning(){
