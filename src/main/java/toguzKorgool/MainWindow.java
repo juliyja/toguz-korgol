@@ -92,7 +92,7 @@ public class MainWindow {
 
     private static void launchGame(String fileName){
         new FileEditor(fileName);
-        PlayerBoard.launch();
+        new PlayerBoard();
     }
 
     /**
@@ -123,5 +123,9 @@ public class MainWindow {
                         + "  - Hole 9 cannot be claimed as tuz.\n"
                         + "  - If one player has claimed hole n as tuz, then their opponent can no longer claim hole n on the opposite side as tuz.\n"
                         + "7. The game ends when one player has collected 82 or more korgools in their kazan.");
+    }
+
+    public void mainWindowClose(){
+        frame.dispose();
     }
 }
