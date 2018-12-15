@@ -1,16 +1,13 @@
 package toguzKorgool;
 
-import static java.lang.Thread.sleep;
-import static org.junit.Assert.*;
-
-import com.athaydes.automaton.FXApp;
-import com.athaydes.automaton.FXer;
 import javafx.embed.swing.JFXPanel;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.swing.*;
 import java.util.concurrent.CountDownLatch;
+
+import static java.lang.Thread.sleep;
+import static org.junit.Assert.assertEquals;
 
 public class GameLogicTest {
 
@@ -19,21 +16,34 @@ public class GameLogicTest {
         assertEquals(GameLogic.getInstance(),GameLogic.getInstance());
     }
 
-    @BeforeClass
+    /*@BeforeClass
     public static void init(){
         new JFXPanel();
-    }
+    }*/
 
 
     @Test
     public void move() {
-
-            new FileEditor("tuzMoveTest");
-            new PlayerBoard();
-            //PlayerBoard.reinitializeBoard();
+        final CountDownLatch latch = new CountDownLatch(1);
+        SwingUtilities.invokeLater(() -> {
+            new JFXPanel();
+            latch.countDown();
+        });
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        new FileEditor("tuzMoveTest");
+            PlayerBoard.getInstance();
 
             GameLogic.getInstance().move(11);
-            assertEquals(1, ((Hole)PlayerBoard.getButtons().get(11)).getKorgools());
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        assertEquals(1, ((Hole)PlayerBoard.getInstance().getButtons().get(11)).getKorgools());
 
     }
 

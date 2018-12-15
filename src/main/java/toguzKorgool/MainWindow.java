@@ -92,14 +92,14 @@ public class MainWindow {
 
     private static void launchGame(String fileName){
         new FileEditor(fileName);
-        new PlayerBoard();
+        PlayerBoard.getInstance();
     }
 
     /**
      * Creates a popup window with game instructions.
      */
     private static void setUpInstructions(){
-        JOptionPane.showMessageDialog(frame,
+        JOptionPane op = new JOptionPane(
                 "Move\n" +
                         "Players make moves by selecting one of the holes on their side of the game that contains korgools. \n" +
                         "A move consists of taking all the korgools from the selected hole\n"
@@ -123,6 +123,11 @@ public class MainWindow {
                         + "  - Hole 9 cannot be claimed as tuz.\n"
                         + "  - If one player has claimed hole n as tuz, then their opponent can no longer claim hole n on the opposite side as tuz.\n"
                         + "7. The game ends when one player has collected 82 or more korgools in their kazan.");
+        JDialog dialog = op.createDialog("Instructions");
+        dialog.setAlwaysOnTop(true);
+        dialog.setModal(false);
+        dialog.setVisible(true);
+
     }
 
     public void mainWindowClose(){
