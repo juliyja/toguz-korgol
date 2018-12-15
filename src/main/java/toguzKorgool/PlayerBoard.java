@@ -33,14 +33,8 @@ public class PlayerBoard {
 
 
     public PlayerBoard(){
-        if(instance == null){
             launch();
             instance = this;
-        }
-        else {
-            refreshState();
-            instance = this;
-        }
     }
 
     public static void launch(){
@@ -56,6 +50,9 @@ public class PlayerBoard {
     public static PlayerBoard getInstance(){
         if(instance != null){
             new PlayerBoard();
+        }
+        else {
+            refreshState();
         }
         return instance;
     }
@@ -137,7 +134,7 @@ public class PlayerBoard {
 
     public static void updateBoard(){
         //Clear the board's components before adding new ones.
-        board.getChildren().clear();
+       board.getChildren().clear();
 
 
 
@@ -219,6 +216,10 @@ public class PlayerBoard {
         }
     }
 
+
+    public static void closeFrame(){
+        frame.dispose();
+    }
 
 }
 

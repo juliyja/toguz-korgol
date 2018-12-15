@@ -3,10 +3,10 @@ apply plugin: 'application'
 mainClassName = 'toguzKorgool.MainWindow'
 
 dependencies{
+    testCompile 'com.athaydes.automaton:Automaton:1.3.2'
     testCompile 'org.hamcrest:hamcrest-all:1.3'
     testCompile 'org.mockito:mockito-all:1.9.5'
     testCompile 'junit:junit:4.12'
-    testCompile 'com.athaydes.automaton:Automaton:1.3.2'
 }
 
 repositories{
