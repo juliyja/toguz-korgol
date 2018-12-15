@@ -1,10 +1,10 @@
 package toguzKorgool;
 
-import static org.junit.Assert.*;
-
 import javafx.embed.swing.JFXPanel;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 
 public class AIPlayerTest {
@@ -19,7 +19,7 @@ public class AIPlayerTest {
     @Test
     public void testTuzMove(){
         FileEditor.reinitializeFileEditor("tuzMoveTest");
-        PlayerBoard.reinitializeBoard();
+        //PlayerBoard.reinitializeBoard();
         new AIPlayer();
         GameLogic.getInstance().refreshHoles();
 
@@ -32,7 +32,7 @@ public class AIPlayerTest {
     @Test
     public void testNonTuzWithoutTuzMove(){
         FileEditor.reinitializeFileEditor("nonTuzNoTuzMoveTest");
-        PlayerBoard.reinitializeBoard();
+        //PlayerBoard.reinitializeBoard();
         GameLogic.getInstance().refreshHoles();
         new AIPlayer();
 
@@ -43,7 +43,7 @@ public class AIPlayerTest {
     @Test
     public void testNonTuzWithTuzMove(){
         FileEditor.reinitializeFileEditor("nonTuzWithTuzMoveTest");
-        PlayerBoard.reinitializeBoard();
+        //PlayerBoard.reinitializeBoard();
         GameLogic.getInstance().refreshHoles();
         PlayerBoard.getButtons().get(6).makeTuz();
         new AIPlayer();
