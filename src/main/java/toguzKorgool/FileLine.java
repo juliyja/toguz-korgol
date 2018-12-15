@@ -59,7 +59,9 @@ public class FileLine {
      *
      * @return the number of kargools in the hole.
      */
-    public int getKargoolsValue(){ return kargoosValue; }
+    public int getKargoolsValue(){
+        return kargoosValue;
+    }
 
     /**
      * A getter method to return the player the Hole is "owned" by.
@@ -75,5 +77,7 @@ public class FileLine {
      *
      * @return the index of the current Hole.
      */
-    public int getHoleIndex() { return holeIndex; }
+    public int getHoleIndex() {
+        return holeIndex;
+    }
 }

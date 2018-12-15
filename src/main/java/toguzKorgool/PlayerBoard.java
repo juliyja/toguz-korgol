@@ -8,7 +8,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.ImagePattern;
 
 import javax.swing.*;
@@ -41,7 +44,7 @@ public class PlayerBoard {
     /**
      * The constructor for the board.
      */
-    public PlayerBoard(){
+    PlayerBoard(){
             board = null;
             refreshState();
             instance = this;
@@ -63,21 +66,23 @@ public class PlayerBoard {
         return instance;
     }
 
-
     /**
-     * A getter method to return the frame of the board.
-     *
-     * @return the frame of the board.
+     * Update the board to show it's new state by updating the state of the buttons and
+     * populating the GridPane with them.
      */
-    public static JFrame getFrame(){return frame;}
+    public static void updateBoard(){
+        //Clear the board's components before adding new ones.
+        Platform.runLater(() -> {
+            //Clear the content of the GridPane so no duplicates exist.
 
-    /**
-     * A getter method to return the panel in the frame.
-     *
-     * @return the panel in the frame.
-     */
-    public static JFXPanel getPanel(){
-        return fxPanel;
+            board.getChildren().clear();
+
+
+            updateButtons();
+
+            //Populate each row and column of the GridPane with labels or buttons.
+            populateBoard();
+        });
     }
 
     /**
@@ -100,16 +105,32 @@ public class PlayerBoard {
 
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == buttonTypeExit){
-            frame.hide();
+            Platform.exit();
         }else {
             frame.hide();
-            try{
-                new MainWindow();
-            }catch (InterruptedException e){
-                e.printStackTrace();
-            }
+            GameLogic.setStateToRunning();
         }
     }
+
+
+    /**
+     * A getter method to return the frame of the board.
+     *
+     * @return the frame of the board.
+     */
+    public static JFrame getFrame(){
+        return frame;
+    }
+
+    /**
+     * A getter method to return the panel in the frame.
+     *
+     * @return the panel in the frame.
+     */
+    public static JFXPanel getPanel(){
+        return fxPanel;
+    }
+
 
     /**
      * A getter method that returns the Holes contained by the Player Board.
@@ -120,12 +141,6 @@ public class PlayerBoard {
         return buttons;
     }
 
-    /**
-     * Dispose of the frame when it is no longer used.
-     */
-    public static void closeFrame(){
-        frame.dispose();
-    }
 
     /**
      * A method used to refresh the state of the board.
@@ -199,25 +214,6 @@ public class PlayerBoard {
         updateBoard();
     }
 
-
-    /**
-     * Update the board to show it's new state by updating the state of the buttons and
-     * populating the GridPane with them.
-     */
-    public static void updateBoard(){
-        //Clear the board's components before adding new ones.
-                Platform.runLater(() -> {
-                    //Clear the content of the GridPane so no duplicates exist.
-
-                    board.getChildren().clear();
-
-
-                    updateButtons();
-
-                    //Populate each row and column of the GridPane with labels or buttons.
-                    populateBoard();
-                });
-    }
 
     /**
      * Populate the GridPane with the Holes from the buttons list.
