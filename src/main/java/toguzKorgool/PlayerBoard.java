@@ -8,10 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
 
 import javax.swing.*;
@@ -155,7 +152,6 @@ public class PlayerBoard {
         frame = new JFrame("Toguz Korgool");
         frame.add(fxPanel);
         frame.setSize(1200, 650);
-        frame.repaint();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setResizable(false);
         Platform.runLater(() -> initFX(fxPanel));
@@ -176,6 +172,7 @@ public class PlayerBoard {
         BorderPane pane = new BorderPane();
         pane.setMaxSize(1400, 600);
         pane.setCenter(board);
+        pane.setStyle("-fx-background-color: transparent;");
 
         Scene scene = new Scene(pane, 1200, 600);
         scene.setFill(new ImagePattern(new Image("file:./src/main/java/toguzKorgool/board.jpg")));
@@ -188,7 +185,6 @@ public class PlayerBoard {
     private static void initializeBoard(){
         setColumnWidth();
         setRowHeight();
-
         board.setAlignment(Pos.CENTER);
 
         board.setPrefSize(1400, 600);
@@ -212,7 +208,9 @@ public class PlayerBoard {
         //Clear the board's components before adding new ones.
                 Platform.runLater(() -> {
                     //Clear the content of the GridPane so no duplicates exist.
+
                     board.getChildren().clear();
+
 
                     updateButtons();
 
