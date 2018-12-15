@@ -21,6 +21,7 @@ public class BoardTest {
     @Test
 
     public void test() throws InterruptedException {
+        new MainWindow();
 
         final CountDownLatch latch = new CountDownLatch(1);
 
