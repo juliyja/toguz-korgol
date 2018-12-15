@@ -1,12 +1,22 @@
 package toguzKorgool;
 
-import javafx.application.Platform;
-import org.junit.After;
-import org.junit.Test;
 import com.athaydes.automaton.Swinger;
+import org.junit.Test;
 
 
 public class MainWindowTest {
+
+
+    MainWindow window;
+
+    public MainWindowTest() {
+        try {
+            window = new MainWindow();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Test
     public void testSinglePlayer() {
         testButton("singlePlayer");
@@ -38,22 +48,22 @@ public class MainWindowTest {
     }
 
     private void testButton(String buttonName){
-        startApp();
         Swinger swinger = Swinger.forSwingWindow();
         swinger.pause(1000).clickOn("name:" + buttonName).pause(1000);
     }
 
     private void startApp(){
         try {
-            new MainWindow();
+            window = new MainWindow();
         } catch (InterruptedException e) {
             System.out.println("ERROR");
         }
     }
 
-    @After
+    /*@After
     public void after(){
         Platform.exit();
-    }
+        window.mainWindowClose();
+    }*/
 }
 
