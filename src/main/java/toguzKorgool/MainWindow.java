@@ -127,5 +127,6 @@ public class MainWindow {
             dialog.setAlwaysOnTop(true);
             dialog.setModal(false);
             dialog.setVisible(true);
+            dialog.setLocationRelativeTo(frame);
         }
 }
