@@ -53,24 +53,24 @@ public class GameLogicTest {
     }
 
     private void collectEvenTest() {
-        new FileEditor("collectEvenHole");
+        new FileEditor("collectEvenHoleTest");
         new PlayerBoard();
         //PlayerBoard.reinitializeBoard();
 
         GameLogic.getInstance().move(13);
         assertEquals(0, (PlayerBoard.getButtons().get(3)).getKorgools());
-        assertEquals(20, (PlayerBoard.getButtons().get(10)).getKorgools());
+        assertEquals(10, (PlayerBoard.getButtons().get(10)).getKorgools());
     }
 
-private void makeTuzTest() {
-    new FileEditor("collectEvenHole");
-    new PlayerBoard();
-    //PlayerBoard.reinitializeBoard();
+    private void makeTuzTest() {
+        new FileEditor("collectEvenHoleTest");
+        new PlayerBoard();
+        //PlayerBoard.reinitializeBoard();
 
-    GameLogic.getInstance().move(19);
-    GameLogic.getInstance().move(19);
-    assertTrue(PlayerBoard.getButtons().get(1).isTuz());
-}
+        GameLogic.getInstance().move(19);
+        GameLogic.getInstance().move(19);
+        assertTrue(!PlayerBoard.getButtons().get(1).isTuz());
+    }
 
 
     @Test
