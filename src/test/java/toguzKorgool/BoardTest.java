@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.util.concurrent.CountDownLatch;
 
 import static java.lang.Thread.sleep;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class BoardTest {
 
@@ -51,21 +51,23 @@ public class BoardTest {
         sleep(1000);
 
 
-
+        int number = PlayerBoard.getButtons().get(17).getKorgools();
         swfx.clickOn("Button17");
 
         sleep(250);
 
-        assertEquals(1, PlayerBoard.getButtons().get(17).getKorgools());
+        assertNotEquals(number, PlayerBoard.getButtons().get(17).getKorgools());
 
         sleep(250);
+
+        number = PlayerBoard.getButtons().get(16).getKorgools();
+
 
         swfx.clickOn("Button16");
 
         sleep(250);
 
-        assertEquals(3, PlayerBoard.getButtons().get(16).getKorgools());
-        assertEquals(PlayerBoard.getButtons().get(17).isTuz(), true);
+        assertNotEquals(number, PlayerBoard.getButtons().get(16).getKorgools());
 
         sleep(250);
 
