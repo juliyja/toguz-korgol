@@ -90,21 +90,6 @@ public class FileEditor {
         return player;
     }
 
-    /**
-     * A method to initialize this class from a different file.
-     *
-     * @param fileName of a file to reinitialize
-     */
-    public static void reinitializeFileEditor(String fileName){
-        if (fileName.endsWith(".txt")) {
-            new FileEditor(fileName.split(".txt")[0]);
-        } else {
-            if(fileName.contains("Test")){
-                makeDataArray("./src/resources/test/" + fileName + ".txt");
-            }
-            else makeDataArray("./src/resources/" + fileName + ".txt");
-        }
-    }
 
     /**
      * Create an array of integers based on the information in the text file.

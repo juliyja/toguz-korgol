@@ -1,61 +1,38 @@
 package toguzKorgool;
 
-//import javax.swing.*;
-//import static org.junit.Assert.*;
-import javafx.application.Platform;
-import org.junit.After;
-import org.junit.Test;
 import com.athaydes.automaton.Swinger;
+import org.junit.Test;
 
 
 public class MainWindowTest {
-    @Test
-    public void testSinglePlayer() {
-        testButton("singlePlayer");
-    }
+    MainWindow window;
 
-    @Test
-    public void testLoadGame() {
-        testButton("loadGame");
-    }
-
-    @Test
-    public void testEasyGame() {
-        testButton("easyGame");
-    }
-
-    @Test
-    public void testMediumGame() {
-        testButton("mediumGame");
-    }
-
-    @Test
-    public void testHardGame() {
-        testButton("hardGame");
-    }
-
-    @Test
-    public void testInstructions() {
-        testButton("instructions");
-    }
-
-    private void testButton(String buttonName){
-        startApp();
-        Swinger swinger = Swinger.forSwingWindow();
-        swinger.pause(1000).clickOn("name:" + buttonName).pause(1000);
-    }
-
-    private void startApp(){
+    public MainWindowTest(){
         try {
-            new MainWindow();
+            window = new MainWindow();
         } catch (InterruptedException e) {
-            System.out.println("ERROR");
+            e.printStackTrace();
         }
     }
 
-    @After
-    public void after(){
-        Platform.exit();
+    @Test
+    public void testSinglePlayer() {
+        testButton("singlePlayer");
+        testButton("loadGame");
+        testButton("easyGame");
+        testButton("mediumGame");
+        testButton("hardGame");
+        testButton("instructions");
+
     }
+
+
+    private void testButton(String buttonName){
+        Swinger swinger = Swinger.forSwingWindow();
+        swinger.pause(1000).clickOn("name:" + buttonName).pause(1000);
+        PlayerBoard.getFrame().hide();
+    }
+
+
 }
 

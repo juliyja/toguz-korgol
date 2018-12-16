@@ -3,8 +3,6 @@ package toguzKorgool;
 
 import javafx.scene.control.Button;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * A class extending Button to provide the required by the GameLogic and PlayerBoard functionality.
  * The Hole instance has a player, number of korgools and tuz variables, as well as the inherited from Button
@@ -119,7 +117,8 @@ public class Hole extends Button {
      * @return the value of the player variable.
      */
     public boolean getPlayer(){
-        return player; }
+        return player;
+    }
 
     /**
      * Paints the button in the appropriate color based on the player they belong to.

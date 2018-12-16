@@ -82,8 +82,8 @@ public class GameLogic {
 
             setState(player1);
         }
-            PlayerBoard.updateBoard();
-            FileEditor.saveGame();
+        PlayerBoard.updateBoard();
+        FileEditor.saveGame();
     }
 
     private void setState(boolean player1) {
