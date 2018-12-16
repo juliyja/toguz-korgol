@@ -98,15 +98,12 @@ public class PlayerBoard {
         alert.setHeaderText(description);
         alert.setContentText("You can either go to main menu or exit the game.");
 
-        ButtonType buttonTypeExit = new ButtonType("Exit");
         ButtonType buttonTypeMenu = new ButtonType("Main Menu");
 
-        alert.getButtonTypes().setAll(buttonTypeExit, buttonTypeMenu);
+        alert.getButtonTypes().setAll(buttonTypeMenu);
 
         Optional<ButtonType> result = alert.showAndWait();
-        if(result.get() == buttonTypeExit){
-            Platform.exit();
-        }else {
+        if(result.get() == buttonTypeMenu) {
             frame.hide();
             GameLogic.setStateToRunning();
         }
